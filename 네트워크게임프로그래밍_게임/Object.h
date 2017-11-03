@@ -1,10 +1,18 @@
 #pragma once
 
 #define DEFAULTHP 1
-#define BULLETSPD 1.6f
-#define BULLETSIZE 5.0f
+#define BULLETSPD 2.0f
+#define BULLETSIZE 2.5f
 #define PLAYERSPD 0.45f
+#define PLAYERSIZE 7.5f
 #define MAX_AMMO 6
+
+enum tile
+{
+	Wall = 0,
+	PSpawn,
+	ISpawn
+};
 
 class Object
 {
@@ -147,17 +155,26 @@ public:
 	~Item();
 };
 
-class Wall : public Object
+class Tile : public Object
 {
 private:
+	int type;
+	int texIdx;
 public:
-	Wall();
-	Wall(Vector2D pos, float size)
-		:Object(0, pos, 0.0f, size)
+	Tile();
+	Tile(Vector2D pos, int type, int texIdx)
+		: Object(0.0f, pos, 0.0f, TILESIZE)
+		, type(type)
+		, texIdx(texIdx)
 	{
 		setColor(Color(0.3f, 0.3f, 0.5f, 1.0f));
 	}
-	~Wall();
+	~Tile();
+
+	virtual void render() const;
+
+	int getType()const { return type; }
+
 };
 
 class ObjectManager
@@ -166,7 +183,8 @@ private:
 	std::vector<Player> m_playerList;
 	std::vector<Bullet> m_bulletList;
 	std::vector<Item>	m_itemList;
-	std::vector<Wall>	m_wallList;
+
+	std::vector<Tile>	m_tileList;
 public:
 	ObjectManager();
 	~ObjectManager();

@@ -1,0 +1,9 @@
+﻿  Object.cpp
+c:\users\sju42\documents\visual studio 2017\projects\네트워크게임프로그래밍_게임\네트워크게임프로그래밍_게임\Object.h(161): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+Object.cpp(82): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+Object.cpp(130): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+Object.cpp(247): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+Object.cpp(250): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+Framework.obj : error LNK2001: __imp_glewInit 외부 기호를 확인할 수 없습니다.
+Framework.obj : error LNK2001: __imp_glewIsSupported 외부 기호를 확인할 수 없습니다.
+C:\Users\sju42\documents\visual studio 2017\Projects\네트워크게임프로그래밍_게임\x64\Release\네트워크게임프로그래밍_게임.exe : fatal error LNK1120: 2개의 확인할 수 없는 외부 참조입니다.

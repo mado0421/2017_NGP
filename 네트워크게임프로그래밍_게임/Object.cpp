@@ -12,7 +12,6 @@ Object::~Object()
 
 void Object::update(float elapsedTime)
 {
-	/*elapsedTime을 받아야 하는데...*/
 	move(elapsedTime);
 }
 
@@ -22,7 +21,7 @@ void Object::render() const
 	glColor3f(m_color.r, m_color.g, m_color.b);
 	glTranslatef(m_pos.x, m_pos.y, 0.0f);
 
-	glutSolidCube(m_size);
+	glutSolidCube(m_size * 2.0);
 
 	glPopMatrix();
 }
@@ -31,7 +30,6 @@ bool Object::isOut()
 {
 	return(m_pos.x - m_size < 0 || m_pos.x + m_size > WWIDTH ||
 		m_pos.y - m_size < 0 || m_pos.y + m_size > WHEIGHT);
-
 }
 
 bool Object::isDead()
@@ -71,33 +69,33 @@ struct wall
 void ObjectManager::initialize()
 {
 	///*여기서 Wall 맵을 받아서 그걸 넣어줘야 함*/
-	//std::ifstream mapFile("assets/map/map_1.txt");
+	std::ifstream mapFile("assets/maps/map_1.map");
+	if (mapFile.is_open())
+	{
+		int type;
+		int texIdx;
+		int x;
+		int y;
+		while (!mapFile.eof())
+		{
+			mapFile >> type >> texIdx >> x >> y;
+			m_tileList.emplace_back(Vector2D(
+				x * TILESIZE * 2.0 + TILESIZE, 
+				y* TILESIZE * 2.0 + TILESIZE),
+				type, texIdx);
+		}
+		m_tileList.pop_back();
+	}
+	mapFile.close();
 
-	//if (mapFile.is_open())
-	//{
-	//	char buf[4];
-	//	bool isSolid;
-	//	short texIdx;
-	//	short x;
-	//	short y;
-	//	while (!mapFile.eof())
-	//	{
-	//		
-
-	//	}
-	//}
-	//else
-	//{
-	//	std::cout << "파일을 불러오는데 실패하였습니다." << std::endl;
-	//}
-
-	//mapFile.close();
-
-	m_playerList.emplace_back(3, Vector2D(WWIDTH / 2.0, WHEIGHT / 2.0), PLAYERSPD,
-		10.0f, PLAYER_0);
-
-	m_playerList.emplace_back(3, Vector2D(WWIDTH / 4.0, WHEIGHT / 4.0), PLAYERSPD,
-		10.0f, PLAYER_1);
+	int i = 0;
+	for (auto tp = m_tileList.cbegin(); tp != m_tileList.cend() && i < 4; ++tp)
+	{
+		if (tp->getType() == tile::PSpawn)
+		{
+			m_playerList.emplace_back(3, tp->getPos(), PLAYERSPD, PLAYERSIZE, i++);
+		}
+	}
 }
 
 void ObjectManager::addBullet(float x, float y, int team)
@@ -188,17 +186,21 @@ void ObjectManager::update(float elapsedTime)
 			continue;
 		}
 	}
+
 	for (auto p = m_bulletList.begin(); p != m_bulletList.end(); ++p)
 	{
 		p->update(elapsedTime);
 
-		//for (auto wp = m_wallList.cbegin(); wp != m_wallList.cend(); ++wp)
-		//{
-		//	if (p->isCollide(*wp))
-		//	{
-		//		p->addHp(-1);
-		//	}
-		//}
+		for (auto tp = m_tileList.cbegin(); tp != m_tileList.cend(); ++tp)
+		{
+			if (tp->getType() == tile::Wall)
+			{
+				if (p->isCollide(*tp))
+				{
+					p->addHp(-1);
+				}
+			}
+		}
 
 		if (p->isDead())
 		{
@@ -213,6 +215,7 @@ void ObjectManager::update(float elapsedTime)
 			continue;
 		}
 	}
+
 	for (auto p = m_itemList.begin(); p != m_itemList.end(); ++p)
 	{
 		p->update(elapsedTime);
@@ -231,7 +234,7 @@ void ObjectManager::render()
 	for (auto p = m_playerList.cbegin(); p != m_playerList.cend(); ++p) p->render();
 	for (auto p = m_bulletList.cbegin(); p != m_bulletList.cend(); ++p) p->render();
 	for (auto p = m_itemList.cbegin(); p != m_itemList.cend(); ++p) p->render();
-	for (auto p = m_wallList.cbegin(); p != m_wallList.cend(); ++p) p->render();
+	for (auto p = m_tileList.cbegin(); p != m_tileList.cend(); ++p) p->render();
 
 }
 
@@ -332,10 +335,27 @@ Item::~Item()
 {
 }
 
-Wall::Wall()
+Tile::Tile()
 {
 }
 
-Wall::~Wall()
+Tile::~Tile()
 {
+}
+
+void Tile::render() const
+{
+	if (type == tile::Wall)
+	{
+		Color color = getColor();
+		Vector2D pos = getPos();
+		float size = getSize();
+		glPushMatrix();
+		glColor3f(color.r, color.g, color.b);
+		glTranslatef(pos.x, pos.y, 0.0f);
+
+		glutSolidCube(size * 2.0);
+
+		glPopMatrix();
+	}
 }

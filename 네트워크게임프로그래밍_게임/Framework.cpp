@@ -60,7 +60,7 @@ GLvoid Framework::reshape(int w, int h)
 
 	glOrtho(0, w, 0, h, -1000.0, 1000.0);
 
-	gluLookAt(0.0f, 0.0f, 1000.0f,
+	gluLookAt(0.0f, 0.0f, 100.0f,
 		0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f);
 	glMatrixMode(GL_MODELVIEW);
