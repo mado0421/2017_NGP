@@ -44,10 +44,15 @@ GLvoid Framework::run(GLvoid)
 
 GLvoid Framework::renderScene(GLvoid)
 {
+	prevTime = timeGetTime();
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.7f, 0.7f, 0.9f, 1.0f);
 
 	m_currentScene->render();
+
+	curTime = timeGetTime();
+
 
 	glutSwapBuffers();
 }
@@ -68,8 +73,8 @@ GLvoid Framework::reshape(int w, int h)
 
 GLvoid Framework::idle(GLvoid)
 {
-	float elapsedTime = 0.16f;
-	m_currentScene->update(elapsedTime);
+//	float elapsedTime = 0.16f;
+	m_currentScene->update(curTime - prevTime);
 	renderScene();
 }
 

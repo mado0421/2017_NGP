@@ -58,7 +58,7 @@ struct Vector2D
 namespace Vector
 {
 	inline float length(Vector2D val) { return sqrt(val.x*val.x + val.y*val.y); }
-	inline Vector2D normalize(Vector2D val) {float len = Vector::length(val);return Vector2D(val.x / len, val.y / len);}
+	inline Vector2D normalize(Vector2D val) { float len = Vector::length(val); if(len != 0) return Vector2D(val.x / len, val.y / len); else return Vector2D(0, 0); }
 	inline Vector2D add(Vector2D a, Vector2D b) { return Vector2D(b.x + a.x, b.y + a.y); }
 	inline Vector2D sub(Vector2D from, Vector2D to) { return Vector2D(to.x - from.x, to.y - from.y); }
 }

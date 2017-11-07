@@ -17,6 +17,9 @@ class Framework
 {
 private:
 	Scene*	m_currentScene;
+
+	DWORD	prevTime;
+	DWORD	curTime;
 public:
 	Framework();
 	~Framework();

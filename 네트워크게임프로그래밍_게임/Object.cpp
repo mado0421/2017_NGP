@@ -284,10 +284,11 @@ void Player::update(float elapsedTime)
 void Player::move(float val)
 {
 	Vector2D pos = getPos();
+	Vector2D dir = Vector::normalize(Vector2D(m_dirX, m_dirY));
 	float spd = getSpd();
 
-	pos.x += val * spd * m_dirX;
-	pos.y += val * spd * m_dirY;
+	pos.x += val * spd * dir.x;
+	pos.y += val * spd * dir.y;
 	setPos(pos);
 }
 

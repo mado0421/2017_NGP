@@ -1,9 +1,9 @@
 #pragma once
 
 #define DEFAULTHP 1
-#define BULLETSPD 2.0f
+#define BULLETSPD 2.3f
 #define BULLETSIZE 2.5f
-#define PLAYERSPD 0.45f
+#define PLAYERSPD 0.65f
 #define PLAYERSIZE 7.5f
 #define MAX_AMMO 6
 
