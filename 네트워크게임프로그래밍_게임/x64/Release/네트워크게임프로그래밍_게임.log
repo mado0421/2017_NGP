@@ -1,22 +1,12 @@
-﻿  stdafx.cpp
-  Framework.cpp
-c:\users\sju42\documents\2017_ngp\네트워크게임프로그래밍_게임\Object.h(169): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-Framework.cpp(77): warning C4244: '인수': 'unsigned long'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Object.cpp
-c:\users\sju42\documents\2017_ngp\네트워크게임프로그래밍_게임\Object.h(169): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-Object.cpp(84): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-Object.cpp(136): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-Object.cpp(256): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-Object.cpp(259): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-Object.cpp(287): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Scene.cpp
-c:\users\sju42\documents\2017_ngp\네트워크게임프로그래밍_게임\Object.h(169): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-Scene.cpp(44): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  네트워크게임프로그래밍_게임.cpp
-c:\users\sju42\documents\2017_ngp\네트워크게임프로그래밍_게임\Object.h(169): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  Framework.cpp
+c:\users\sju42\documents\2017_ngp\네트워크게임프로그래밍_게임\Object.h(172): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+Framework.cpp(85): warning C4244: '인수': 'unsigned long'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+Framework.cpp(92): warning C4244: '인수': 'unsigned long'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+Framework.cpp(100): warning C4244: '인수': 'unsigned long'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+Framework.cpp(108): warning C4244: '인수': 'unsigned long'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   코드를 생성하고 있습니다.
-  45 of 553 functions ( 8.1%) were compiled, the rest were copied from previous compilation.
+  35 of 552 functions ( 6.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    23 functions had inline decision re-evaluated but remain unchanged
+    19 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
   네트워크게임프로그래밍_게임.vcxproj -> C:\Users\sju42\Documents\2017_NGP\x64\Release\네트워크게임프로그래밍_게임.exe

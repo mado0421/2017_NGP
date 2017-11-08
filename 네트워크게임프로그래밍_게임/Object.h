@@ -1,9 +1,9 @@
 #pragma once
 
 #define DEFAULTHP 1
-#define BULLETSPD 2.3f
+#define BULLETSPD 3.2f
 #define BULLETSIZE 2.5f
-#define PLAYERSPD 0.65f
+#define PLAYERSPD 1.25f
 #define PLAYERSIZE 7.5f
 #define MAX_AMMO 6
 
@@ -16,9 +16,10 @@ enum tile
 
 class Object
 {
-private:
+protected:
 	int			m_hp;
 	Vector2D	m_pos;
+	Vector2D	m_dir;
 	float		m_spd;
 	float		m_size;
 	Color		m_color;
@@ -26,6 +27,7 @@ private:
 	float		m_standardTime;
 	float		m_interval;
 	bool		m_dead;
+
 public:
 	Object();
 	Object(int hp, Vector2D pos, float spd, float size)
@@ -45,6 +47,7 @@ public:
 	bool isOut();
 	bool isDead();
 	bool isCollide(const Object &other);
+	bool isCollideRect(const Object &other);
 
 
 	virtual void move(float val);
@@ -98,6 +101,7 @@ public:
 
 	virtual void update(float elapsedTime);
 	virtual void move(float val);
+	void changeDirByCollide(const Object &other);
 
 	void fire();
 	void reload();
@@ -113,22 +117,21 @@ class Bullet : public Object
 {
 private:
 	int			m_team;
-	Vector2D	m_direction;
 public:
 	Bullet();
 	Bullet(Vector2D pos, Vector2D dir, int team)
 		: Object(DEFAULTHP, pos, BULLETSPD, BULLETSIZE)
 		, m_team(team)
-		, m_direction(dir)
 	{
+		m_dir = dir;
 		if (team == PLAYER_0) setColor(Color(1.0f, 1.0f, 0.0f, 1.0f));
 		else setColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 	Bullet(int hp, Vector2D pos, float spd, float size, Vector2D dir, int team)
 		: Object(hp, pos, spd, size)
 		, m_team(team)
-		, m_direction(dir)
 	{
+		m_dir = dir;
 		if (team == PLAYER_0) setColor(Color(1.0f, 1.0f, 0.0f, 1.0f));
 		else setColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
 	}
@@ -136,10 +139,10 @@ public:
 
 	virtual void move(float val);
 
-	void setDirection(Vector2D dir) { m_direction = dir; }
+	void setDirection(Vector2D dir) { m_dir = dir; }
 
 	int getTeam() const { return m_team; }
-	Vector2D getDirection() const { return m_direction; }
+	Vector2D getDirection() const { return m_dir; }
 };
 
 class Item : public Object

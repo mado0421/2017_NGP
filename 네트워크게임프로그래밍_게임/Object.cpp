@@ -39,9 +39,19 @@ bool Object::isDead()
 
 bool Object::isCollide(const Object & other)
 {
-	return ((m_size + other.m_size)*(m_size + other.m_size) >=
-		(m_pos.x - other.m_pos.x)*(m_pos.x - other.m_pos.x) +
-		(m_pos.y - other.m_pos.y)*(m_pos.y - other.m_pos.y));
+	return (
+		(m_size + other.m_size)*(m_size + other.m_size) >=
+		(m_pos.x + m_dir.x - other.m_pos.x)*(m_pos.x + m_dir.x - other.m_pos.x) +
+		(m_pos.y + m_dir.y - other.m_pos.y)*(m_pos.y + m_dir.y - other.m_pos.y));
+}
+
+bool Object::isCollideRect(const Object & other)
+{
+	return (
+		m_pos.x + m_size + m_dir.x > other.m_pos.x - other.m_size &&
+		m_pos.x - m_size + m_dir.x < other.m_pos.x + other.m_size &&
+		m_pos.y + m_size + m_dir.y > other.m_pos.y - other.m_size &&
+		m_pos.y - m_size + m_dir.y < other.m_pos.y + other.m_size);
 }
 
 void Object::move(float val)
@@ -154,9 +164,6 @@ void ObjectManager::update(float elapsedTime)
 {
 	for (auto p = m_playerList.begin(); p != m_playerList.end(); ++p)
 	{
-		/*업데이트*/
-		p->update(elapsedTime);
-
 		/*충돌검사*/
 		int team = p->getTeam();
 		for (auto bp = m_bulletList.begin(); bp != m_bulletList.end(); ++bp)
@@ -177,6 +184,16 @@ void ObjectManager::update(float elapsedTime)
 				ip->addHp(-1);
 			}
 		}
+		for (auto tp = m_tileList.cbegin(); tp != m_tileList.cend(); ++tp)
+		{
+			if (tp->getType() == tile::Wall)
+			{
+				if (p->isCollideRect(*tp))
+				{
+					p->changeDirByCollide(*tp);
+				}
+			}
+		}
 
 		/*체력검사*/
 		if (p->isDead())
@@ -185,17 +202,18 @@ void ObjectManager::update(float elapsedTime)
 			if (p == m_playerList.end()) break;
 			continue;
 		}
+
+		/*업데이트*/
+		p->update(elapsedTime);
 	}
 
 	for (auto p = m_bulletList.begin(); p != m_bulletList.end(); ++p)
 	{
-		p->update(elapsedTime);
-
 		for (auto tp = m_tileList.cbegin(); tp != m_tileList.cend(); ++tp)
 		{
 			if (tp->getType() == tile::Wall)
 			{
-				if (p->isCollide(*tp))
+				if (p->isCollideRect(*tp))
 				{
 					p->addHp(-1);
 				}
@@ -214,18 +232,20 @@ void ObjectManager::update(float elapsedTime)
 			if (p == m_bulletList.end()) break;
 			continue;
 		}
+
+		p->update(elapsedTime);
 	}
 
 	for (auto p = m_itemList.begin(); p != m_itemList.end(); ++p)
 	{
-		p->update(elapsedTime);
-
 		if (p->isDead())
 		{
 			p = m_itemList.erase(p);
 			if (p == m_itemList.end()) break;
 			continue;
 		}
+
+		p->update(elapsedTime);
 	}
 }
 
@@ -261,6 +281,7 @@ void Player::changeMoveDirection(unsigned char dir, float val)
 	default:
 		break;
 	}
+	m_dir = Vector::normalize(Vector2D(m_dirX, m_dirY));
 }
 
 int Player::getMoveDirection(unsigned char dir)
@@ -274,6 +295,7 @@ int Player::getMoveDirection(unsigned char dir)
 	default:
 		break;
 	}
+	m_dir = Vector::normalize(Vector2D(m_dirX, m_dirY));
 }
 
 void Player::update(float elapsedTime)
@@ -283,13 +305,15 @@ void Player::update(float elapsedTime)
 
 void Player::move(float val)
 {
-	Vector2D pos = getPos();
-	Vector2D dir = Vector::normalize(Vector2D(m_dirX, m_dirY));
-	float spd = getSpd();
+	m_pos.x += val * m_spd * m_dir.x;
+	m_pos.y += val * m_spd * m_dir.y;
+}
 
-	pos.x += val * spd * dir.x;
-	pos.y += val * spd * dir.y;
-	setPos(pos);
+void Player::changeDirByCollide(const Object & other)
+{
+	Vector2D pos = other.getPos();
+	if ((pos.x - m_pos.x) * (pos.x - m_pos.x) > (pos.y - m_pos.y) * (pos.y - m_pos.y)) m_dir.x = 0.0f;
+	else m_dir.y = 0.0f;
 }
 
 void Player::fire()
@@ -318,12 +342,8 @@ Bullet::~Bullet()
 
 void Bullet::move(float val)
 {
-	Vector2D pos = getPos();
-	float spd = getSpd();
-
-	pos.x += val * spd * m_direction.x;
-	pos.y += val * spd * m_direction.y;
-	setPos(pos);
+	m_pos.x += val * m_spd * m_dir.x;
+	m_pos.y += val * m_spd * m_dir.y;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -348,14 +368,11 @@ void Tile::render() const
 {
 	if (type == tile::Wall)
 	{
-		Color color = getColor();
-		Vector2D pos = getPos();
-		float size = getSize();
 		glPushMatrix();
-		glColor3f(color.r, color.g, color.b);
-		glTranslatef(pos.x, pos.y, 0.0f);
+		glColor3f(m_color.r, m_color.g, m_color.b);
+		glTranslatef(m_pos.x, m_pos.y, 0.0f);
 
-		glutSolidCube(size * 2.0);
+		glutSolidCube(m_size * 2.0);
 
 		glPopMatrix();
 	}

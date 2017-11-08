@@ -38,7 +38,6 @@ GLvoid Framework::run(GLvoid)
 	glutKeyboardUpFunc(::keyUp);
 	glutSpecialUpFunc(::specialKeyUp);
 	glutMouseFunc(::mouseInput);
-//	glutTimerFunc(m_ulFPS, ::Timer, 1);
 	glutMainLoop();
 }
 
@@ -73,7 +72,6 @@ GLvoid Framework::reshape(int w, int h)
 
 GLvoid Framework::idle(GLvoid)
 {
-//	float elapsedTime = 0.16f;
 	m_currentScene->update(curTime - prevTime);
 	renderScene();
 }
@@ -81,29 +79,39 @@ GLvoid Framework::idle(GLvoid)
 GLvoid Framework::mouseInput(int button, int state, int x, int y)
 {
 	m_currentScene->mouseInput(button, state, x, WHEIGHT - y);
+	m_currentScene->update(curTime - prevTime);
+
 	renderScene();
 }
 
 GLvoid Framework::keyDown(unsigned char key, int x, int y)
 {
 	m_currentScene->keyDown(key, x, y);
+	m_currentScene->update(curTime - prevTime);
+
 	renderScene();
 }
 
 GLvoid Framework::keyUp(unsigned char key, int x, int y)
 {
 	m_currentScene->keyUp(key, x, y);
+	m_currentScene->update(curTime - prevTime);
+
 	renderScene();
 }
 
 GLvoid Framework::specialKeyDown(int key, int x, int y)
 {
 	m_currentScene->specialKeyDown(key, x, y);
+	m_currentScene->update(curTime - prevTime);
+
 	renderScene();
 }
 
 GLvoid Framework::specialKeyUp(int key, int x, int y)
 {
 	m_currentScene->specialKeyUp(key, x, y);
+	m_currentScene->update(curTime - prevTime);
+
 	renderScene();
 }
