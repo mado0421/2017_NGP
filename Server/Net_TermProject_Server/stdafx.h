@@ -1,0 +1,103 @@
+// stdafx.h : 자주 사용하지만 자주 변경되지는 않는
+// 표준 시스템 포함 파일 또는 프로젝트 관련 포함 파일이
+// 들어 있는 포함 파일입니다.
+//
+
+#pragma once
+#pragma comment(lib,"ws2_32")
+
+#include "targetver.h"
+
+#include <stdio.h>
+#include <tchar.h>
+
+#include<WinSock2.h>
+#include<stdlib.h>	
+#include<stdio.h>
+#include<math.h>
+//Room 구조체 전역변수 예정
+
+#define MAX_BULLET 18
+#define MAX_PLAYER 4
+#define MAX_ITEM 3
+
+#define MAXROOMCOUNT	100
+
+struct Vector2D
+{
+	float x, y;
+	Vector2D() { x = 0.0f; y = 0.0f; }
+	Vector2D(float x, float y)
+		:x(x), y(y)
+	{}
+	~Vector2D() {}
+};
+
+namespace Vector
+{
+	inline float length(Vector2D val) { return sqrt(val.x*val.x + val.y*val.y); }
+	inline Vector2D normalize(Vector2D val) { float len = Vector::length(val); if (len != 0) return Vector2D(val.x / len, val.y / len); else return Vector2D(0, 0); }
+	inline Vector2D add(Vector2D a, Vector2D b) { return Vector2D(b.x + a.x, b.y + a.y); }
+	inline Vector2D sub(Vector2D from, Vector2D to) { return Vector2D(to.x - from.x, to.y - from.y); }
+}
+
+struct InfoPlayer {
+	Vector2D m_pos;
+	int m_hp;
+	int m_state;
+};
+
+struct InfoBullet {
+	Vector2D m_pos;
+	int m_type;
+};
+
+struct InfoItem {
+	Vector2D m_pos;
+	int m_type;
+};
+
+struct InfoTeam {
+	SOCKET m_socket;
+	InfoPlayer m_player;
+	InfoBullet m_bullets[MAX_BULLET];
+};
+
+struct Room
+{
+	///////////////////////////////////////////////
+	// 클라이언트
+	// Room을 특정하는 고유 키
+	unsigned short m_roomID;
+
+	// 각 팀별로 정보를 저장하는 배열
+	InfoTeam m_teamList[MAX_PLAYER];
+
+	// 아이템 정보를 저장하는 배열
+	InfoItem m_itemList[MAX_ITEM];
+
+	// Room의 상태를 저장하는 변수(false: Lobby, true: Play)
+	bool m_roomState;
+
+	// Room에 접속해있는 현재 인원
+	int m_numOfPlayerInRoom;
+
+	///////////////////////////////////////////////
+	// 서버
+
+	Room() {};
+	~Room() {};
+	///////////////////////////////////////////////
+	// 클라이언트
+	bool accessLobby();
+	void leaveLobby();
+	void checkMsg();
+
+	///////////////////////////////////////////////
+	// 서버
+	bool isPlayerReady(int idx);
+	void readyToStartPlay();
+	void playerArrive();
+};
+
+// TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
