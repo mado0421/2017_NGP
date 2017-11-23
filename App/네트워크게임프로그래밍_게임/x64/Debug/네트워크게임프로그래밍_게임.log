@@ -1,15 +1,6 @@
-﻿  Framework.cpp
-c:\users\sju42\documents\2017_ngp\네트워크게임프로그래밍_게임\object.h(172): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\sju42\documents\2017_ngp\네트워크게임프로그래밍_게임\framework.cpp(75): warning C4244: '인수': 'unsigned long'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\sju42\documents\2017_ngp\네트워크게임프로그래밍_게임\framework.cpp(82): warning C4244: '인수': 'unsigned long'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\sju42\documents\2017_ngp\네트워크게임프로그래밍_게임\framework.cpp(90): warning C4244: '인수': 'unsigned long'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\sju42\documents\2017_ngp\네트워크게임프로그래밍_게임\framework.cpp(98): warning C4244: '인수': 'unsigned long'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\sju42\documents\2017_ngp\네트워크게임프로그래밍_게임\framework.cpp(106): warning C4244: '인수': 'unsigned long'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\sju42\documents\2017_ngp\네트워크게임프로그래밍_게임\framework.cpp(114): warning C4244: '인수': 'unsigned long'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  네트워크게임프로그래밍_게임.cpp
-c:\users\sju42\documents\2017_ngp\네트워크게임프로그래밍_게임\object.h(172): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  코드를 생성하고 있습니다...
-  네트워크게임프로그래밍_게임.vcxproj -> C:\Users\sju42\Documents\2017_NGP\x64\Debug\네트워크게임프로그래밍_게임.exe
-  네트워크게임프로그래밍_게임.vcxproj -> C:\Users\sju42\Documents\2017_NGP\x64\Debug\네트워크게임프로그래밍_게임.pdb (Partial PDB)
+﻿  Scene.cpp
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.h(172): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(48): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(238): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\um\winsock2.h(1830): note: 'inet_addr' 선언을 참조하십시오.
+  네트워크게임프로그래밍_게임.vcxproj -> C:\Users\sju42\Documents\GitHub\2017_NGP\App\x64\Debug\네트워크게임프로그래밍_게임.exe

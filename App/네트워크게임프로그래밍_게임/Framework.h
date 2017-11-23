@@ -1,6 +1,13 @@
 #pragma once
 #include "Scene.h"
 
+enum SceneType
+{
+	Title=0,
+	Lobby,
+	Play
+};
+
 GLvoid initialize(GLvoid);
 GLvoid run(GLvoid);
 
@@ -16,6 +23,7 @@ GLvoid specialKeyUp(int key, int x, int y);
 class Framework
 {
 private:
+	Scene*	m_scenes[3];
 	Scene*	m_currentScene;
 
 	DWORD	prevTime;
@@ -36,5 +44,7 @@ public:
 	GLvoid keyUp(unsigned char key, int x, int y);
 	GLvoid specialKeyDown(int key, int x, int y);
 	GLvoid specialKeyUp(int key, int x, int y);
+
+	bool changeScene(int idx);
 };
 

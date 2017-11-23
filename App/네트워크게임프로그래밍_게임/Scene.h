@@ -11,6 +11,7 @@ public:
 	~Scene();
 public:
 	virtual void initialize() = 0;
+	virtual void leave() = 0;
 
 	virtual void update(float elapsedTime) = 0;
 	virtual void render() = 0;
@@ -30,6 +31,7 @@ public:
 	~TitleScene();
 public:
 	virtual void initialize();
+	virtual void leave();
 
 	virtual void update(float elapsedTime);
 	virtual void render();
@@ -45,10 +47,20 @@ class LobbyScene : public Scene
 {
 private:
 public:
+	SOCKADDR_IN serveraddr;
+	WSADATA		wsa;
+	SOCKET		sock;
+	int			retval;
+	char		ipAddr[BUFSIZE];
+
+	bool		m_lightOn;
+	bool		m_connected;
+public:
 	LobbyScene();
 	~LobbyScene();
 public:
 	virtual void initialize();
+	virtual void leave();
 
 	virtual void update(float elapsedTime);
 	virtual void render();
@@ -58,6 +70,9 @@ public:
 	virtual void keyUp(unsigned char key, int x, int y);
 	virtual void specialKeyDown(int key, int x, int y);
 	virtual void specialKeyUp(int key, int x, int y);
+
+	virtual bool checkMsg();
+	virtual void sendMsg(int player, int type);
 };
 
 class PlayScene : public Scene
@@ -69,6 +84,7 @@ public:
 	~PlayScene();
 public:
 	virtual void initialize();
+	virtual void leave();
 
 	virtual void update(float elapsedTime);
 	virtual void render();

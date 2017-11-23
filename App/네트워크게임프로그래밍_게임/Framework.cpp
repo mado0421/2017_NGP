@@ -23,10 +23,15 @@ GLvoid Framework::initialize(int argc, char **argv)
 	if (glewIsSupported("GL_VERSION_3_0"))
 		std::cout << " GLEW Version is 3.0\n ";
 	else std::cout << "GLEW 3.0 not supported\n ";
-
+	
 	prevTime = timeGetTime();
 
-	m_currentScene = new PlayScene();
+	m_scenes[SceneType::Title] = new TitleScene();
+	m_scenes[SceneType::Lobby] = new LobbyScene();
+	m_scenes[SceneType::Play] = new PlayScene();
+
+	m_currentScene = m_scenes[SceneType::Lobby];
+//	m_currentScene = m_scenes[SceneType::Play];
 	m_currentScene->initialize();
 }
 
@@ -115,4 +120,27 @@ GLvoid Framework::specialKeyUp(int key, int x, int y)
 	m_currentScene->specialKeyUp(key, x, y);
 
 	renderScene();
+}
+
+bool Framework::changeScene(int idx)
+{
+	switch (idx)
+	{
+	case SceneType::Title:
+		m_currentScene->leave();
+		m_currentScene = m_scenes[SceneType::Title];
+		break;
+	case SceneType::Lobby:
+		m_currentScene->leave();
+		m_currentScene = m_scenes[SceneType::Lobby];
+		break;
+	case SceneType::Play:
+		m_currentScene->leave();
+		m_currentScene = m_scenes[SceneType::Play];
+		break;
+	default:
+		return false;
+	}
+	m_currentScene->initialize();
+	return true;
 }

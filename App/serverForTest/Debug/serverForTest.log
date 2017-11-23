@@ -1,0 +1,13 @@
+﻿  server.cpp
+c:\users\sju42\documents\github\2017_ngp\app\serverfortest\헤더.h(21): error C3861: 'sqrt': 식별자를 찾을 수 없습니다.
+c:\users\sju42\documents\github\2017_ngp\app\serverfortest\room.h(71): error C2535: 'void Room::checkMsg(void)': 멤버 함수를 이미 정의했거나 선언했습니다.
+  c:\users\sju42\documents\github\2017_ngp\app\serverfortest\room.h(62): note: 'Room::checkMsg' 선언을 참조하십시오.
+c:\users\sju42\documents\github\2017_ngp\app\serverfortest\server.cpp(113): error C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\um\winsock2.h(1848): note: 'inet_ntoa' 선언을 참조하십시오.
+c:\users\sju42\documents\github\2017_ngp\app\serverfortest\server.cpp(119): error C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\um\winsock2.h(1848): note: 'inet_ntoa' 선언을 참조하십시오.
+  Room.cpp
+c:\users\sju42\documents\github\2017_ngp\app\serverfortest\헤더.h(21): error C3861: 'sqrt': 식별자를 찾을 수 없습니다.
+c:\users\sju42\documents\github\2017_ngp\app\serverfortest\room.h(71): error C2535: 'void Room::checkMsg(void)': 멤버 함수를 이미 정의했거나 선언했습니다.
+  c:\users\sju42\documents\github\2017_ngp\app\serverfortest\room.h(62): note: 'Room::checkMsg' 선언을 참조하십시오.
+  코드를 생성하고 있습니다...

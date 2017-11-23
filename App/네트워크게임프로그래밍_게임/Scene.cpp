@@ -27,6 +27,10 @@ void PlayScene::initialize()
 	m_objMng->initialize();
 }
 
+void PlayScene::leave()
+{
+}
+
 void PlayScene::update(float elapsedTime)
 {
 	m_objMng->update(elapsedTime);
@@ -46,6 +50,12 @@ void PlayScene::mouseInput(int button, int state, int x, int y)
 	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
 	{
 		m_objMng->reloadAmmo(PLAYER_0);
+	}
+	else if (button == GLUT_MIDDLE_BUTTON && state == GLUT_DOWN)
+	{
+		/*for Test*/
+
+
 	}
 }
 
@@ -128,6 +138,11 @@ TitleScene::~TitleScene()
 
 void TitleScene::initialize()
 {
+
+}
+
+void TitleScene::leave()
+{
 }
 
 void TitleScene::update(float elapsedTime)
@@ -167,10 +182,28 @@ LobbyScene::LobbyScene()
 
 LobbyScene::~LobbyScene()
 {
+
 }
 
 void LobbyScene::initialize()
 {
+	m_lightOn = false;
+	m_connected = false;
+
+	// 윈속 초기화
+	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) exit(1);
+
+	// socket()
+	sock = socket(AF_INET, SOCK_STREAM, 0);
+	if (sock == INVALID_SOCKET) err_quit("socket()");
+
+
+}
+
+void LobbyScene::leave()
+{	
+	//closesocket()
+	closesocket(sock);
 }
 
 void LobbyScene::update(float elapsedTime)
@@ -179,10 +212,45 @@ void LobbyScene::update(float elapsedTime)
 
 void LobbyScene::render()
 {
+	glPushMatrix();
+	glTranslatef(WWIDTH / 2.0, WHEIGHT / 2.0, 0);
+	glColor3f(0.1f, 0.1f, 0.1f);
+	glutSolidSphere(120.0f, 32, 8);
+
+	if (m_lightOn) glColor3f(0.0f, 1.0f, 0.0f);
+	else if(m_connected) glColor3f(1.0f, 0.0f, 0.0f);
+	else glColor3f(0.2f, 0.2f, 0.2f);
+	glutSolidSphere(100.0f, 32, 8);
+
+	glPopMatrix();
 }
 
 void LobbyScene::mouseInput(int button, int state, int x, int y)
 {
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+	{
+		if (!m_connected)
+		{		
+			m_connected = true;
+			// connet()
+			ZeroMemory(&serveraddr, sizeof(serveraddr));
+			serveraddr.sin_family = AF_INET;
+			serveraddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+			serveraddr.sin_port = htons(SERVERPORT);
+			retval = connect(sock, (SOCKADDR *)&serveraddr, sizeof(serveraddr));
+		}
+		else
+		{
+			sendMsg(PLAYER_0, 0);
+			checkMsg();
+		}
+	}
+	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
+	{
+	}
+	else if (button == GLUT_MIDDLE_BUTTON && state == GLUT_DOWN)
+	{
+	}
 }
 
 void LobbyScene::keyDown(unsigned char key, int x, int y)
@@ -199,4 +267,46 @@ void LobbyScene::specialKeyDown(int key, int x, int y)
 
 void LobbyScene::specialKeyUp(int key, int x, int y)
 {
+}
+
+bool LobbyScene::checkMsg()
+{
+	char msg[MSGSIZE];
+	retval = recvn(sock, msg, MSGSIZE, 0);
+	if (retval == 0) return false;
+	switch (msg[0])
+	{
+	case 0x00:
+		m_lightOn = true;
+		break;
+	case 0x01:
+		m_lightOn = true;
+
+		break;
+	case 0x02:
+		m_lightOn = true;
+
+		break;
+	default:
+		return false;
+	}
+	return true;
+}
+
+void LobbyScene::sendMsg(int player, int type)
+{
+	char msg[MSGSIZE];
+	switch (type)
+	{
+	case 0:
+		msg[0] = 0x01;
+		break;
+	case 1:
+		msg[0] = 0x02;
+		break;
+	default:
+		break;
+	}
+	send(sock, msg, MSGSIZE, 0);
+	return;
 }
