@@ -24,7 +24,7 @@ using namespace std;
 #define MAX_ITEM 3
 
 #define MAXROOMCOUNT	100
-#define THREADFREQ	0.016f
+#define THREADFREQ	20.0f
 
 struct Vector2D
 {
@@ -125,8 +125,8 @@ struct S2CPacket{	// Server to Client Packet 구조체 실제 데이터를 서버에서 보낼
 	DWORD	Message;	//	HIWORD 메시지 타입
 						//	0번 Data, 1번 게임시작, 2번 게임종료…
 	chrono::system_clock::time_point SendTime;
-	InfoPlayer iPlayer[4];
-	InfoBullet iBullet[4];
+	InfoPlayer iPlayer[MAX_PLAYER];
+	InfoBullet iBullet[MAX_PLAYER][MAX_BULLET];
 	//InfoItem iItem[4];
 	
 	void SetPacket(int roomNumber, Room room[MAXROOMCOUNT])
@@ -134,13 +134,12 @@ struct S2CPacket{	// Server to Client Packet 구조체 실제 데이터를 서버에서 보낼
 		InfoTeam iTeam[MAX_PLAYER];
 		memcpy(&iTeam, &room[roomNumber].m_teamList, sizeof(InfoTeam)*MAX_PLAYER);
 
-		InfoPlayer iPlayer[MAX_PLAYER];
-		InfoBullet iBullet[MAX_PLAYER][MAX_BULLET];
 		for (int i = 0; i < MAX_PLAYER; ++i)
 		{
 			memcpy(&iPlayer[i], &iTeam[i].m_player, sizeof(InfoPlayer));
 			memcpy(&iBullet[i], &iTeam[i].m_bullets, sizeof(InfoBullet)*MAX_BULLET);
 		}
+	
 	};
 };
 
@@ -150,6 +149,8 @@ struct C2SPacket {
 	InfoPlayer player;
 	InfoBullet Bullets[MAX_BULLET];
 };
+
+int recvn(SOCKET s, char *buf, int len, int flags);
 
 
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.

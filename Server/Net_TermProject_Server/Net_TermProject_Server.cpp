@@ -83,8 +83,9 @@ int main()
 	p.roomNum = 0;
 
 	while (true) {
-		while (cnt--) {
+		while (true) {
 			//	accept()
+			if (cnt == 0)break;
 			addrlen = sizeof(clientaddr);
 			client_sock = accept(listen_sock, (SOCKADDR*)&clientaddr, &addrlen);
 			if (client_sock == INVALID_SOCKET)
@@ -92,10 +93,13 @@ int main()
 				err_display("accept()");
 				break;
 			}
-			p.playerNum = 4 - cnt;
+			p.playerNum = 4 - cnt--;
+			printf("Player Number=%d\n", p.playerNum);
 			//	접속한 클라이언트 정보 출력
 			printf("\n[TCP 서버] 클라이언트 접속: IP 주소=%s, 포트 번호=%d\n",
 				inet_ntoa(clientaddr.sin_addr), ntohs(clientaddr.sin_port));
+			g_server.SetSocket(p.roomNum, p.playerNum, client_sock);
+
 			hThread = CreateThread(NULL, 0, g_server.CommunicationPlayer, (LPVOID)&p, 0, NULL);
 			CloseHandle(hThread);
 

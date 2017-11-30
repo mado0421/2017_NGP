@@ -90,12 +90,19 @@ int main(int argc, char* argv[])
 
 	player[pi].m_hp = 10 + pi;
 	player[pi].m_pos = Vector2D(100+pi, 100+pi);
+
+	bullets[pi]->m_pos = Vector2D(100 + pi, 100 + pi);
+	bullets[pi]->m_type = 10 + pi;
+
+	::printf("[%d]  hp = %d, pos = %d %d\n", pi, player[pi].m_hp, player[pi].m_pos.x, player[pi].m_pos.y);
+
 	//	서버와 데이터 통신
 	while (1) {
 		int len;
-		memcpy(&s2cpacket, &player[pi], sizeof(InfoPlayer));
+		memcpy(&c2spacket.player, &player[pi], sizeof(InfoPlayer));
+		memcpy(&c2spacket.Bullets, &bullets[pi], sizeof(InfoBullet));
 
-		retval = send(sock, (char*)&s2cpacket, sizeof(S2CPacket), 0);
+		retval = send(sock, (char*)&c2spacket, sizeof(C2SPacket), 0);
 		if (retval == SOCKET_ERROR) {
 			err_display("send()");
 			break;
@@ -110,11 +117,13 @@ int main(int argc, char* argv[])
 		}
 		else if (retval == 0)
 			break;
-
-		//	받은 데이터 출력
-		buf[retval] = '\0';
+		
 		::printf("[TCP 클라이언트] %d바이트를 받았습니다.\n", retval);
-		::printf("[받은 데이터] %s\n", buf);
+		for (int i = 0; i < MAX_PLAYER; ++i)
+		{
+			memcpy(&player[i], &s2cpacket.iPlayer[i], sizeof(InfoPlayer));
+			memcpy(&bullets[i], &s2cpacket.iBullet[i], sizeof(InfoBullet));
+		}
 		for (int i = 0; i < MAX_PLAYER; ++i)
 		{
 			::printf("[%d]  hp = %d", i, s2cpacket.iPlayer[i].m_hp);

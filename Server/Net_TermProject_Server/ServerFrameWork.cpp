@@ -7,6 +7,7 @@ extern int ats;
 
 //Á¤ÀÇ?
 Room ServerFrameWork::room[MAXROOMCOUNT];
+bool ServerFrameWork::Communicated[MAXROOMCOUNT][MAX_PLAYER];
 
 ServerFrameWork::ServerFrameWork()
 {
@@ -54,26 +55,34 @@ void ServerFrameWork::test_ReceivePacketFromClient(int roomNum, int PlayerID)
 {
 }
 
+void ServerFrameWork::SetSocket(int RoomNumber, int PlayerId,SOCKET socket)
+{
+	room[RoomNumber].m_teamList[PlayerId].m_socket = socket;
+}
+
 DWORD ServerFrameWork::GameThread(LPVOID arg)
 {
 	int RoomNumber = (int)arg;
-	printf("GameThreadCall %d\n", RoomNumber);
-	while (true) {
-
+	printf("GameThreadCall RoomNumber %d\n", RoomNumber);
+	//while (true) {
+		for (int i = 0; i < MAX_PLAYER; ++i) {
+			if (!Communicated[RoomNumber][i])
+				Sleep(0);
+		}
 	//	Need Room TimeCheckout
 		room[RoomNumber].Tick();
 		if (room[RoomNumber].m_ElapsedTime < THREADFREQ)
 			Sleep(0);
 		else
 			room[RoomNumber].m_ElapsedTime = 0;
-
+		printf("In GameThread room: %d\n", RoomNumber);
 	//	Communication Success?
 	//	{
 	//
 	//	}
 		InfoTeam team[MAX_PLAYER];
 		for (int i = 0; i < MAX_PLAYER; ++i) {
-			memcpy(&team[i], &room[RoomNumber].m_teamList[i], sizeof(InfoPlayer));
+			memcpy(&team[i], &room[RoomNumber].m_teamList[i], sizeof(InfoTeam));
 		}
 
 		InfoPlayer iPlayer[MAX_PLAYER];
@@ -87,16 +96,30 @@ DWORD ServerFrameWork::GameThread(LPVOID arg)
 		// Calc;
 
 
+		for (int i = 0;; ++i)
+		{
+			if (i != MAX_PLAYER)
+			{
+				if (!Communicated[RoomNumber][i])
+					break;
+				else 
+					Communicated[RoomNumber][i] = false; 
+			}
+			else
+			{
+				S2CPacket* packet = new S2CPacket;
+				// Set packet
+				packet->SetPacket(RoomNumber, &room[RoomNumber]);
 
-		S2CPacket* packet = new S2CPacket;
-		// Set packet
-		packet->SetPacket(RoomNumber, &room[RoomNumber]);
+				SendPacketToClient(packet, RoomNumber);
+				printf("SendPacketToClient %d \n", RoomNumber);
 
-		SendPacketToClient(packet, RoomNumber);
-		printf("SendPacketToClient %d \n",RoomNumber);
-
-		delete packet;
-	}
+				delete packet;
+			}
+		}	
+		
+		return 0;
+	//}
 	//	Set Next Thread's Event
 }
 
@@ -104,24 +127,33 @@ DWORD ServerFrameWork::CommunicationPlayer(LPVOID arg)
 {
 	Room_Player* index = (Room_Player*)arg;
 	int index_p = index->playerNum, index_r = index->roomNum;
+	int retval;
 
-	while (true) {
-		ReceivePacketFromClient(index_r, index_p);
-		printf("CommunicationPlayer %d %d\n", index_r,index_p);
-	}
+//	while (true) {
+		if (!Communicated[index_r][index_p])
+		{
+			retval = ReceivePacketFromClient(index_r, index_p);
+			if (retval != 0)
+				printf("CommunicationPlayer %d %d\n", index_r, index_p);
+
+			Communicated[index_r][index_p] = true;
+		}
+//	}
 	
 	return 0;
 }
 
-void ServerFrameWork::ReceivePacketFromClient(int roomNum, int PlayerID)
+int ServerFrameWork::ReceivePacketFromClient(int roomNum, int PlayerID)
 {
-	InfoTeam* team = &room[roomNum].m_teamList[PlayerID];
-	SOCKET client_sock = team->m_socket;
+	InfoTeam *team = &room[roomNum].m_teamList[PlayerID];
 	C2SPacket packet;
-	recv(client_sock, (char*)&packet, sizeof(C2SPacket), 0);
+	int retval;
+	retval = recvn(team->m_socket, (char*)&packet, sizeof(C2SPacket), 0);
 
 	memcpy(&team[roomNum].m_player, &packet.player, sizeof(InfoPlayer));
 	memcpy(&team[roomNum].m_bullets, &packet.Bullets, sizeof(InfoBullet)*MAX_BULLET);
+
+	return retval;
 }
 
 void ServerFrameWork::SendPacketToClient(S2CPacket * packet, int roomNum)
