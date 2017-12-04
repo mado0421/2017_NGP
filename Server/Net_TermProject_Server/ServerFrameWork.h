@@ -11,8 +11,11 @@ class ServerFrameWork
 {
 	static Room room[MAXROOMCOUNT];
 	static HANDLE hGameThread[MAXROOMCOUNT];
+	static HANDLE hCommunicated[MAXROOMCOUNT][MAX_PLAYER];
+	static HANDLE hSendPacket[MAXROOMCOUNT][MAX_PLAYER];
+
 	static bool Communicated[MAXROOMCOUNT][MAX_PLAYER];
-	static bool isCommunicationed[MAXROOMCOUNT][MAX_PLAYER];
+
 	HANDLE hTread[2];
 	argument th[2];
 public:
@@ -29,6 +32,8 @@ public:	// Àç¿í
 
 	public:
 		void SetSocket(int RoomNumber, int PlayerId, SOCKET socket);
+		void InitRoom(int RoomNumber);
+		void GameStart(int RoomNumber);
 public:
 	//	Using in Thread Function
 	static DWORD WINAPI GameThread(LPVOID arg);

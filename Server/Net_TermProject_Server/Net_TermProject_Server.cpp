@@ -81,8 +81,10 @@ int main()
 	int addrlen;
 	Room_Player p;
 	p.roomNum = 0;
-
+	HANDLE hHandle[5];
+	int i = 0;
 	while (true) {
+		g_server.InitRoom(p.roomNum);
 		while (true) {
 			//	accept()
 			if (cnt == 0)break;
@@ -100,14 +102,15 @@ int main()
 				inet_ntoa(clientaddr.sin_addr), ntohs(clientaddr.sin_port));
 			g_server.SetSocket(p.roomNum, p.playerNum, client_sock);
 
-			hThread = CreateThread(NULL, 0, g_server.CommunicationPlayer, (LPVOID)&p, 0, NULL);
-			CloseHandle(hThread);
+			hHandle[i++] = CreateThread(NULL, 0, g_server.CommunicationPlayer, (LPVOID)&p, 0, NULL);
 
 		}
-		hThread = CreateThread(NULL, 0, g_server.GameThread, (LPVOID)p.roomNum, 0, NULL);
-		CloseHandle(hThread);
+		hHandle[i++] = CreateThread(NULL, 0, g_server.GameThread, (LPVOID)p.roomNum, 0, NULL);
+		g_server.GameStart(p.roomNum);
+		break;
 	}
-
-
+	WaitForMultipleObjects(5, hHandle, true, INFINITE);
+	
+	printf("exit\n");
 
 }

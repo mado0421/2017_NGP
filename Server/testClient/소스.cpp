@@ -128,6 +128,7 @@ int main(int argc, char* argv[])
 		{
 			::printf("[%d]  hp = %d", i, s2cpacket.iPlayer[i].m_hp);
 		}
+		printf("\n");
 	}
 
 	//	close_socket()
