@@ -25,7 +25,7 @@ using namespace std;
 #define MAX_ITEM 3
 
 #define MAXROOMCOUNT	100
-#define THREADFREQ	10.6f
+#define THREADFREQ	0.016f
 
 struct Vector2D
 {
