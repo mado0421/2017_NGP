@@ -30,6 +30,9 @@
 //};
 
 InfoPlayer p[4];
+C2SPacket c2spacket;
+S2CPacket s2cpacket;
+
 
 namespace
 {
@@ -70,7 +73,7 @@ DWORD WINAPI communicateThreadFunc(LPVOID arg)
 	retval = connect(sock, (SOCKADDR *)&serveraddr, sizeof(serveraddr));
 	if (retval == SOCKET_ERROR)
 		err_quit("connect");
-	int msg = -1;
+	int msg = 0;
 	
 	//send: 저 접속했어요 메시지, 필요 없을 수 있음
 	while (msg != ENDGAME)
@@ -78,11 +81,14 @@ DWORD WINAPI communicateThreadFunc(LPVOID arg)
 		sec = std::chrono::system_clock::now() - start;
 		if(sec.count()>1/60)
 		{
-			retval = recvn(sock, (char*)&msg, MSGSIZE, 0);
+			memcpy(&(c2spacket.player), p, sizeof(InfoPlayer) * 4);
+			send(sock, (char*)&c2spacket, sizeof(C2SPacket), 0);
+			//retval = recvn(sock, (char*)&msg, MSGSIZE, 0);
 			switch (msg)
 			{
 			case DATA:
-				retval = recvn(sock, (char*)&p, sizeof(InfoPlayer) * 4, 0);
+				retval = recvn(sock, (char*)&s2cpacket, sizeof(S2CPacket), 0);
+				memcpy(p, &(s2cpacket.iPlayer), sizeof(InfoPlayer) * 4);
 				//printf("%f, %f", p[1].m_pos.x, p[1].m_pos.y);
 				//memcpy(p, data, sizeof(InfoPlayer) * 4);
 				framework.updatePlayerInfo(p);
@@ -94,7 +100,8 @@ DWORD WINAPI communicateThreadFunc(LPVOID arg)
 				//pFramework->ChangeScene(TitleScene);
 				break;
 			}
-			send(sock, (char*)&p[0], sizeof(InfoPlayer), 0);
+			/*memcpy(&(c2spacket.player), p, sizeof(InfoPlayer) * 4);
+			send(sock, (char*)&c2spacket, sizeof(C2SPacket), 0);*/
 			start = std::chrono::system_clock::now();
 		}
 	}
@@ -118,7 +125,6 @@ int main(int argc, char **argv)
 	s.argv = argv;
 	HANDLE hThread[2];
 	hThread[1] = CreateThread(NULL, 0, gameThreadFunc, (LPVOID)&s, 0, NULL);
-	
 	hThread[0] = CreateThread(NULL, 0, communicateThreadFunc, NULL, 0, NULL);
 	WaitForMultipleObjects(2, hThread, TRUE, INFINITE);
 	return 0;

@@ -19,6 +19,7 @@
 #include <WinSock2.h>
 #include <Windows.h>
 #include <timeapi.h>
+#include <chrono>
 #pragma comment(lib, "ws2_32")
 
 #define PLAYER_0 0
@@ -35,7 +36,9 @@
 #define BUFSIZE 256
 #define SERVERPORT 9000
 #define MSGSIZE 4
-
+#define MAX_BULLET 18
+#define MAX_PLAYER 4
+#define MAX_ITEM 3
 struct Color
 {
 	float r, g, b, a;
@@ -72,6 +75,22 @@ struct InfoPlayer {
 	Vector2D m_pos;
 	int m_hp;
 	int m_state;
+};
+
+struct InfoBullet {
+	Vector2D m_pos;
+	int m_type;
+};
+
+struct InfoItem {
+	Vector2D m_pos;
+	int m_type;
+};
+
+struct InfoTeam {
+	SOCKET m_socket;
+	InfoPlayer m_player;
+	InfoBullet m_bullets[MAX_BULLET];
 };
 
 struct startData {
@@ -137,3 +156,18 @@ inline int recvn(SOCKET s, char *buf, int len, int flags)
 }
 
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
+struct S2CPacket {	// Server to Client Packet 구조체 실제 데이터를 서버에서 보낼
+	DWORD	Message;	//	HIWORD 메시지 타입
+						//	0번 Data, 1번 게임시작, 2번 게임종료…
+	InfoPlayer iPlayer[MAX_PLAYER];
+	InfoBullet iBullet[MAX_PLAYER][MAX_BULLET];
+	std::chrono::system_clock::time_point SendTime;
+
+};
+
+
+struct C2SPacket {
+
+	InfoPlayer player;
+	InfoBullet Bullets[MAX_BULLET];
+};

@@ -1,6 +1,6 @@
 ﻿  ObjectManager.cpp
-c:\users\cyh\downloads\2017_ngp-master\app\네트워크게임프로그래밍_게임\object.h(172): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\cyh\downloads\2017_ngp-master\app\네트워크게임프로그래밍_게임\objectmanager.cpp(36): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\cyh\downloads\2017_ngp-master\app\네트워크게임프로그래밍_게임\objectmanager.cpp(88): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\cyh\downloads\2017_ngp-master\app\네트워크게임프로그래밍_게임\objectmanager.cpp(103): warning C4715: 'ObjectManager::getPlayerDirection': 모든 제어 경로에서 값을 반환하지는 않습니다.
-  네트워크게임프로그래밍_게임.vcxproj -> C:\Users\CYH\Downloads\2017_NGP-master\App\x64\Debug\네트워크게임프로그래밍_게임.exe
+c:\users\cyh\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.h(172): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\cyh\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\objectmanager.cpp(36): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\cyh\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\objectmanager.cpp(88): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\cyh\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\objectmanager.cpp(103): warning C4715: 'ObjectManager::getPlayerDirection': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  네트워크게임프로그래밍_게임.vcxproj -> C:\Users\CYH\Documents\GitHub\2017_NGP\App\x64\Debug\네트워크게임프로그래밍_게임.exe

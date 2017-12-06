@@ -104,6 +104,7 @@ int ObjectManager::getPlayerDirection(unsigned char key, int team)
 
 void ObjectManager::update(float elapsedTime)
 {
+	
 	for (auto p = m_playerList.begin(); p != m_playerList.end(); ++p)
 	{
 		/*충돌검사*/
@@ -204,10 +205,13 @@ void ObjectManager::updatePlayerInfo(InfoPlayer * p)
 {
 	if (m_playerList.size() == 4)
 	{
-		for (int i = 1; i < 4; ++i)
+		for (int i = 0; i < 4; ++i)
 		{
+			/*if (i == playerNum)
+				continue;*/
 			m_playerList[i].setPos(p[i].m_pos);
-			printf("%f,%f\n", m_playerList[i].getPos().x, m_playerList[i].getPos().y);
+			//printf("%f,%f\n", m_playerList[i].getPos().x, m_playerList[i].getPos().y);
 		}
 	}
+	p[0].m_pos = m_playerList[0].getPos();
 }
