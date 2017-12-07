@@ -39,22 +39,30 @@
 #define MAX_BULLET 18
 #define MAX_PLAYER 4
 
-struct NetworkData
-{
-	SOCKADDR_IN serveraddr;
-	WSADATA		wsa;
-	SOCKET		sock;
-	int			m_myTeamNo;
-};
-
 enum msg {
-	TEAMNO=0,
+	TEAMNO = 0,
 	ISREADY,
 	STARTPLAY,
 	LEAVE,
 	TEST,
 
 	OK,
+};
+
+enum waitState {
+	none=0,
+	wait,
+	error,
+	success
+};
+
+struct NetworkData
+{
+	SOCKADDR_IN serveraddr;
+	WSADATA		wsa;
+	SOCKET		sock;
+	int			m_myTeamNo;
+	int			state = waitState::none;
 };
 
 struct Color

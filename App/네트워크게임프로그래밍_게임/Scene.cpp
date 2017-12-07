@@ -115,6 +115,17 @@ void LobbyScene::leave()
 
 void LobbyScene::update(float elapsedTime)
 {
+	//if (m_connected && m_lightOn)
+	//{
+	//	//char msg[MSGSIZE];
+	//	//msg[0] = msg::STARTPLAY;
+	//	//send(m_networkData->sock, msg, MSGSIZE, 0);
+	//	if (!checkMsg()) {
+	//		std::cout << "checkMsg()에서 문제!" << std::endl;
+	//		exit(1);
+	//	}
+	//}
+	if(m_networkData->state==waitState::success) changeScene(SceneType::Play, m_networkData);
 }
 
 void LobbyScene::render()
@@ -146,29 +157,32 @@ void LobbyScene::mouseInput(int button, int state, int x, int y)
 				std::cout << "checkMsg()에서 문제!" << std::endl;
 				exit(1);
 			}
+			hThread = CreateThread(NULL, 0, waitThreadFunc, (void*)m_networkData, 0, NULL);
+
 			m_connected = true;
-		}
-		else if (m_connected && m_lightOn)
-		{
-			char msg[MSGSIZE];
-			msg[0] = msg::STARTPLAY;
-			send(m_networkData->sock, msg, MSGSIZE, 0);
-			if (!checkMsg()) {
-				std::cout << "checkMsg()에서 문제!" << std::endl;
-				exit(1);
-			}
-		}
-		else
-		{
-			char msg[MSGSIZE];
-			msg[0] = msg::TEST;
-			send(m_networkData->sock, msg, MSGSIZE, 0);
-			if (!checkMsg()) {
-				std::cout << "checkMsg()에서 문제!" << std::endl;
-				exit(1);
-			}
 			m_lightOn = true;
+
 		}
+		//else if (m_connected && m_lightOn)
+		//{
+		//	char msg[MSGSIZE];
+		//	msg[0] = msg::STARTPLAY;
+		//	send(m_networkData->sock, msg, MSGSIZE, 0);
+		//	if (!checkMsg()) {
+		//		std::cout << "checkMsg()에서 문제!" << std::endl;
+		//		exit(1);
+		//	}
+		//}
+		//else
+		//{
+		//	//char msg[MSGSIZE];
+		//	//msg[0] = msg::TEST;
+		//	//send(m_networkData->sock, msg, MSGSIZE, 0);
+		//	//if (!checkMsg()) {
+		//	//	std::cout << "checkMsg()에서 문제!" << std::endl;
+		//	//	exit(1);
+		//	//}
+		//}
 	}
 	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
 	{
@@ -211,18 +225,18 @@ bool LobbyScene::checkMsg()
 		m_networkData->m_myTeamNo = msg[0];
 		return true;
 
-	case msg::ISREADY:
-		msg[0] = msg::OK;
-		retval = send(m_networkData->sock, msg, MSGSIZE, 0);
-		if (retval == SOCKET_ERROR) return false;
-		return true;
+	//case msg::ISREADY:
+	//	msg[0] = msg::OK;
+	//	retval = send(m_networkData->sock, msg, MSGSIZE, 0);
+	//	if (retval == SOCKET_ERROR) return false;
+	//	return true;
 
-	case msg::STARTPLAY:
-		msg[0] = msg::OK;
-		retval = send(m_networkData->sock, msg, MSGSIZE, 0);
-		if (retval == SOCKET_ERROR) return false;
-		changeScene(SceneType::Play, m_networkData);
-		return true;
+	//case msg::STARTPLAY:
+	//	msg[0] = msg::OK;
+	//	retval = send(m_networkData->sock, msg, MSGSIZE, 0);
+	//	if (retval == SOCKET_ERROR) return false;
+	//	changeScene(SceneType::Play, m_networkData);
+	//	return true;
 
 	case msg::TEST:
 		printf("이걸 나한테 왜 보내?\n");
@@ -239,10 +253,15 @@ bool LobbyScene::checkMsg()
 
 bool LobbyScene::accessLobby()
 {
+	char ipAddr[256];
+
+	printf("주소입력\n");
+	scanf("%s", ipAddr);
+
 	// connet()
 	ZeroMemory(&m_networkData->serveraddr, sizeof(m_networkData->serveraddr));
 	m_networkData->serveraddr.sin_family = AF_INET;
-	m_networkData->serveraddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+	m_networkData->serveraddr.sin_addr.s_addr = inet_addr(ipAddr);
 	m_networkData->serveraddr.sin_port = htons(SERVERPORT);
 	retval = connect(m_networkData->sock, (SOCKADDR *)&m_networkData->serveraddr, sizeof(m_networkData->serveraddr));
 	if (retval == SOCKET_ERROR) return false;
@@ -445,5 +464,38 @@ DWORD WINAPI communicateThreadFunc(LPVOID arg)
 	}
 	closesocket(sock);
 	WSACleanup();
+	return 0;
+}
+
+DWORD waitThreadFunc(LPVOID arg)
+{
+	char msg[MSGSIZE];
+	int retval;
+	NetworkData *np = (NetworkData*)arg;
+	while (true)
+	{
+		retval = recvn(np->sock, msg, MSGSIZE, 0);
+		if (retval == SOCKET_ERROR) break;
+		switch (msg[0])
+		{
+		case msg::ISREADY:
+			msg[0] = msg::OK;
+			retval = send(np->sock, msg, MSGSIZE, 0);
+			if (retval == SOCKET_ERROR) break;
+			break;
+
+		case msg::STARTPLAY:
+			msg[0] = msg::OK;
+			retval = send(np->sock, msg, MSGSIZE, 0);
+			if (retval == SOCKET_ERROR) break;
+			np->state = waitState::success;
+			goto end;
+			break;
+		default:
+			break;
+		}
+	}
+end:
+
 	return 0;
 }

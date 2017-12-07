@@ -1,6 +1,28 @@
-﻿  Framework.cpp
-c:\users\20\desktop\2017_ngp-cyh\2017_ngp\app\네트워크게임프로그래밍_게임\object.h(172): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\20\desktop\2017_ngp-cyh\2017_ngp\app\네트워크게임프로그래밍_게임\framework.cpp(61): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\20\desktop\2017_ngp-cyh\2017_ngp\app\네트워크게임프로그래밍_게임\framework.cpp(127): warning C4101: 'playerNumber' :참조되지 않은 지역 변수입니다.
-  네트워크게임프로그래밍_게임.vcxproj -> C:\Users\20\Desktop\2017_NGP-CYH\2017_NGP\App\x64\Debug\네트워크게임프로그래밍_게임.exe
-  네트워크게임프로그래밍_게임.vcxproj -> C:\Users\20\Desktop\2017_NGP-CYH\2017_NGP\App\x64\Debug\네트워크게임프로그래밍_게임.pdb (Partial PDB)
+﻿  stdafx.cpp
+  네트워크게임프로그래밍_게임.cpp
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.h(172): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Scene.cpp
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.h(172): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(259): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(1272): note: 'scanf' 선언을 참조하십시오.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(264): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\um\winsock2.h(1830): note: 'inet_addr' 선언을 참조하십시오.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(335): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  ObjectManager.cpp
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.h(172): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\objectmanager.cpp(37): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\objectmanager.cpp(92): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Object.cpp
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.h(172): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.cpp(76): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.cpp(79): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.cpp(84): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.cpp(98): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Framework.cpp
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.h(172): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\framework.cpp(61): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\framework.cpp(127): warning C4101: 'playerNumber' :참조되지 않은 지역 변수입니다.
+  코드를 생성하고 있습니다...
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.cpp(99): warning C4715: 'Player::getMoveDirection': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\objectmanager.cpp(107): warning C4715: 'ObjectManager::getPlayerDirection': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  네트워크게임프로그래밍_게임.vcxproj -> C:\Users\sju42\Documents\GitHub\2017_NGP\App\x64\Debug\네트워크게임프로그래밍_게임.exe

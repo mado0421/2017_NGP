@@ -56,6 +56,8 @@ class LobbyScene : public Scene
 private:
 public:
 	NetworkData *m_networkData = NULL;
+	HANDLE			hThread;
+
 	int			retval;
 	//--------------------for Test----------------------
 	bool		m_lightOn;
@@ -115,4 +117,5 @@ public:
 };
 
 
-//DWORD WINAPI communicateThreadFunc(LPVOID arg);
+DWORD WINAPI communicateThreadFunc(LPVOID arg);
+DWORD WINAPI waitThreadFunc(LPVOID arg);
