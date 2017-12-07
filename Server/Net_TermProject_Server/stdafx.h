@@ -36,7 +36,7 @@ using namespace std;
 #define MAX_AMMO 6
 
 #define MAXROOMCOUNT	100
-#define THREADFREQ	3.0f
+#define THREADFREQ	0.0016f
 
 #define FIXFREQUENCY
 
@@ -64,17 +64,27 @@ struct InfoPlayer {
 	int m_state;
 };
 
+inline bool IsPlayerDead(int arg) {
+	if (arg <= 0)return true;
+	else return false;
+}
+
 struct InfoBullet {
 	Vector2D m_pos;
 	int m_type;
 };
 
-inline bool IsExistBullet(float posX){
+inline bool IsExistBullet(float posX)
+{
 	if (posX == NOTEXIST)
 		return false;
 	else 
 		return true;
 }
+
+
+
+
 inline void DestroyBullet(InfoBullet* bullet) 
 {
 	bullet->m_pos.x = NOTEXIST;
@@ -100,9 +110,11 @@ bool inline IsZero(float a) {
 	else 
 		return false;
 }
+
 enum {
 	Lobby = false, Play = true
 };
+
 struct Room
 {
 	///////////////////////////////////////////////
@@ -166,7 +178,8 @@ struct Room_Player
 	int playerNum;
 };
 
-struct S2CPacket{	// Server to Client Packet 구조체 실제 데이터를 서버에서 보낼
+struct S2CPacket
+{	// Server to Client Packet 구조체 실제 데이터를 서버에서 보낼
 	DWORD	Message;	//	HIWORD 메시지 타입
 						//	0번 Data, 1번 게임시작, 2번 게임종료…
 	InfoPlayer iPlayer[MAX_PLAYER];
@@ -187,7 +200,8 @@ struct S2CPacket{	// Server to Client Packet 구조체 실제 데이터를 서버에서 보낼
 	};
 };
 
-struct C2SPacket {
+struct C2SPacket 
+{
 
 	InfoPlayer player;
 	InfoBullet Bullets[MAX_BULLET];

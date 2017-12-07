@@ -105,8 +105,8 @@ DWORD ServerFrameWork::GameThread(LPVOID arg)
 		//	wait queue
 		WaitForSingleObject(hGameThread[roomIndex], INFINITE);
 		//for test
-		if (cnt++ >= TEST_CNT_COUNT)break;
-		::printf("\n cnt = %d\n", cnt);
+		//if (cnt++ >= TEST_CNT_COUNT)break;
+		//::printf("\n cnt = %d\n", cnt);
 
 		//	wait Communication
 		retEvent = WaitForMultipleObjects(MAX_PLAYER, hCommunicated[roomIndex], TRUE, INFINITE);
@@ -117,9 +117,9 @@ DWORD ServerFrameWork::GameThread(LPVOID arg)
 		FixFrame(roomIndex);
 #endif
 		// Calc;
-		::printf("[%d] Calculate\n", roomIndex);
+		//::printf("[%d] Calculate\n", roomIndex);
 		Calculate(roomIndex);
-		::printf("[%d] Calc Success\n", roomIndex);
+		//::printf("[%d] Calc Success\n", roomIndex);
 
 		// Set packet
 		S2CPacket packet;
@@ -128,7 +128,7 @@ DWORD ServerFrameWork::GameThread(LPVOID arg)
 
 		//	Send
 		SendPacketToClient(&packet, roomIndex);
-		::printf("SendPacketToClient %d \n", roomIndex);
+		//::printf("SendPacketToClient %d \n", roomIndex);
 
 		//	For CommunicationPlayer Thread, notice ready to Communicate
 		for (int i = 0; i < MAX_PLAYER; ++i)
@@ -153,14 +153,14 @@ DWORD ServerFrameWork::CommunicationPlayer(LPVOID arg)
 
 		retval = ReceivePacketFromClient(index_r, index_p);
 
-		if (retval != SOCKET_ERROR)
-			::printf("CommunicationPlayer %d %d retval=%d\n", index_r, index_p, retval);
-		else
-			::printf("CommunicationPlayer %d %d SOCKET_ERROR\n", index_r, index_p);
+		if (retval != SOCKET_ERROR);
+			//::printf("CommunicationPlayer %d %d retval=%d\n", index_r, index_p, retval);
+		else;
+			//::printf("CommunicationPlayer %d %d SOCKET_ERROR\n", index_r, index_p);
 
 		SetEvent(hCommunicated[index_r][index_p]);
 		
-		if (cnt >= TEST_CNT_COUNT)break;
+		//if (cnt >= TEST_CNT_COUNT)break;
 	}
 	return 0;
 }
@@ -174,7 +174,7 @@ int ServerFrameWork::ReceivePacketFromClient(int roomNum, int PlayerID)
 	retval = recvn(TeamList(roomNum, PlayerID).m_socket, (char*)&packet, sizeof(C2SPacket), 0);
 	if (retval == SOCKET_ERROR)
 		return SOCKET_ERROR;
-	printf("ReceivePacketFromClient room:%d, PlayerId:%d, retval = %d\n", roomNum, PlayerID, retval);
+	//printf("ReceivePacketFromClient room:%d, PlayerId:%d, retval = %d\n", roomNum, PlayerID, retval);
 	memcpy(&TeamList(roomNum, PlayerID).m_player, &packet.player, sizeof(InfoPlayer));
 	memcpy(&TeamList(roomNum, PlayerID).m_bullets, &packet.Bullets, sizeof(InfoBullet)*MAX_BULLET);
 
@@ -206,6 +206,9 @@ void ServerFrameWork::Calculate(int roomNum)
 	for (int i = 0; i < MAX_PLAYER; ++i)
 	{
 		player = &TeamList(roomNum, i).m_player;
+		//	Bullet Check;
+		if (IsPlayerDead(player->m_hp))continue;
+
 		for (int j = 0; j < MAX_PLAYER; ++j)
 		{
 			//	동일 플레이어 건너띔

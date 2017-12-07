@@ -77,8 +77,7 @@ int main()
 			if (cnt == MAX_PLAYER)break;
 			addrlen = sizeof(clientaddr);
 			client_sock = accept(listen_sock, (SOCKADDR*)&clientaddr, &addrlen);
-			if (client_sock == INVALID_SOCKET)
-			{
+			if (client_sock == INVALID_SOCKET){
 				err_display("accept()");
 				break;
 			}

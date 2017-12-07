@@ -5,8 +5,6 @@ struct argument {
 	int member = 0;
 };
 
-
-
 class ServerFrameWork
 {
 	static Room room[MAXROOMCOUNT];

@@ -1,0 +1,12 @@
+﻿  stdafx.cpp
+  Net_TermProject_Server.cpp
+Net_TermProject_Server.cpp(88): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\um\WinSock2.h(1846): note: 'inet_ntoa' 선언을 참조하십시오.
+Net_TermProject_Server.cpp(64): warning C4101: 'hThread' :참조되지 않은 지역 변수입니다.
+  ServerFrameWork.cpp
+  코드를 생성하고 있습니다.
+  13 of 177 functions ( 7.3%) were compiled, the rest were copied from previous compilation.
+    9 functions were new in current compilation
+    4 functions had inline decision re-evaluated but remain unchanged
+  코드를 생성했습니다.
+  Net_TermProject_Server.vcxproj -> D:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2017_NGP\Server\Net_TermProject_Server\Release\Net_TermProject_Server.exe

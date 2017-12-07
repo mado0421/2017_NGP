@@ -4,7 +4,7 @@
 #define SERVERIP	"127.0.0.1"
 #define	SERVERPORT	9000
 #define BUFSIZE		512
-
+char serverip[256];
 // 소켓 함수 오류 출력 후 종료
 void err_quit(char *msg)
 {
@@ -38,6 +38,8 @@ int main(int argc, char* argv[])
 	int pi;
 	::printf("플레이어 입력: ");
 	scanf("%d", &pi);
+	//::printf("Ip주소 입력 xxx.xxx.xxx.xxx\n");
+	//::scanf("%s", &serverip);
 	//	윈속 초기화
 	WSADATA wsa;
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
@@ -117,6 +119,7 @@ int main(int argc, char* argv[])
 			::printf("[%d] hp = %d /", i, s2cpacket.iPlayer[i].m_hp);
 		}
 		::printf("\n");
+		player[pi].m_pos.x += 0.016;
 	}
 
 	//	close_socket()

@@ -1,0 +1,18 @@
+﻿  stdafx.cpp
+  소스.cpp
+소스.cpp(73): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+소스.cpp(75): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+소스.cpp(122): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+소스.cpp(40): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdio.h(1269): note: 'scanf' 선언을 참조하십시오.
+소스.cpp(57): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\um\WinSock2.h(1828): note: 'inet_addr' 선언을 참조하십시오.
+소스.cpp(131): warning C4996: '_sleep': This function or variable has been superceded by newer library or operating system functionality. Consider using Sleep instead. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdlib.h(1271): note: '_sleep' 선언을 참조하십시오.
+소스.cpp(65): warning C4101: 'len' :참조되지 않은 지역 변수입니다.
+소스.cpp(64): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+소스.cpp(91): warning C4101: 'len' :참조되지 않은 지역 변수입니다.
+  코드를 생성하고 있습니다.
+  All 27 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  코드를 생성했습니다.
+  testClient.vcxproj -> D:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2017_NGP\Server\Net_TermProject_Server\Release\testClient.exe
