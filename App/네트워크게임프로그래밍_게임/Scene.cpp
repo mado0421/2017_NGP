@@ -220,6 +220,7 @@ bool LobbyScene::checkMsg()
 	switch (msg[0])
 	{
 	case msg::TEAMNO:
+
 		retval = recvn(m_networkData->sock, msg, MSGSIZE, 0);
 		if (retval == SOCKET_ERROR) return false;
 		m_networkData->m_myTeamNo = msg[0];
@@ -250,14 +251,17 @@ bool LobbyScene::checkMsg()
 	}
 	return false;
 }
-
+#define AUTOIP
 bool LobbyScene::accessLobby()
 {
 	char ipAddr[256];
 
+#ifndef AUTOIP
 	printf("주소입력\n");
 	scanf("%s", ipAddr);
-
+#else
+	strcpy(ipAddr, "127.0.0.1");
+#endif
 	// connet()
 	ZeroMemory(&m_networkData->serveraddr, sizeof(m_networkData->serveraddr));
 	m_networkData->serveraddr.sin_family = AF_INET;

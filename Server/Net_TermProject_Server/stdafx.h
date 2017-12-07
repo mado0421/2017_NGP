@@ -166,6 +166,14 @@ struct Room
 
 	Room() {};
 	~Room() {};
+
+	void Room::initialize()
+	{
+		/*for Test*/
+		for (int i = 0; i < MAX_PLAYER; ++i)
+			m_teamList[i].m_socket = NULL;
+	}
+
 	bool checkAllPlayerInRoom()
 	{
 		char msg[MSGSIZE];

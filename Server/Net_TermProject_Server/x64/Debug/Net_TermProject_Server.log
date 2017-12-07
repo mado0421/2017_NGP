@@ -1,11 +1,1 @@
-﻿  stdafx.cpp
-  ServerFrameWork.cpp
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2017_ngp\server\net_termproject_server\serverframework.cpp(61): warning C4312: '형식 캐스팅': 'int'에서 더 큰 'LPVOID'(으)로의 변환입니다.
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2017_ngp\server\net_termproject_server\serverframework.cpp(116): warning C4311: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 포인터가 잘립니다.
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2017_ngp\server\net_termproject_server\serverframework.cpp(116): warning C4302: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 잘립니다.
-  Net_TermProject_Server.cpp
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2017_ngp\server\net_termproject_server\net_termproject_server.cpp(64): warning C4101: 'hThread' :참조되지 않은 지역 변수입니다.
-  코드를 생성하고 있습니다...
-cl : 명령줄 warning D9028: 최소 다시 빌드에 실패했습니다. 정상 빌드로 되돌립니다.
-  Net_TermProject_Server.vcxproj -> D:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2017_NGP\Server\Net_TermProject_Server\x64\Debug\Net_TermProject_Server.exe
-  Net_TermProject_Server.vcxproj -> D:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2017_NGP\Server\Net_TermProject_Server\x64\Debug\Net_TermProject_Server.pdb (Partial PDB)
+﻿  Net_TermProject_Server.vcxproj -> C:\Users\sju42\Documents\GitHub\2017_NGP\Server\Net_TermProject_Server\x64\Debug\Net_TermProject_Server.exe

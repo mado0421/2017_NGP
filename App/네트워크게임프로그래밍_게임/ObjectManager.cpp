@@ -123,13 +123,14 @@ void ObjectManager::update(float elapsedTime)
 		}
 		}
 		}*/
-		for (auto ip = m_itemList.begin(); ip != m_itemList.end(); ++ip)
-		{
-			if (p->isCollide(*ip))
-			{
-				ip->addHp(-1);
-			}
-		}
+
+		//for (auto ip = m_itemList.begin(); ip != m_itemList.end(); ++ip)
+		//{
+		//	if (p->isCollide(*ip))
+		//	{
+		//		ip->addHp(-1);
+		//	}
+		//}
 		for (auto tp = m_tileList.cbegin(); tp != m_tileList.cend(); ++tp)
 		{
 			if (tp->getType() == tile::Wall)
@@ -186,17 +187,17 @@ void ObjectManager::update(float elapsedTime)
 		m_myBulletList[i].update(elapsedTime);
 	}
 
-	for (auto p = m_itemList.begin(); p != m_itemList.end(); ++p)
-	{
-		if (p->isDead())
-		{
-			p = m_itemList.erase(p);
-			if (p == m_itemList.end()) break;
-			continue;
-		}
+	//for (auto p = m_itemList.begin(); p != m_itemList.end(); ++p)
+	//{
+	//	if (p->isDead())
+	//	{
+	//		p = m_itemList.erase(p);
+	//		if (p == m_itemList.end()) break;
+	//		continue;
+	//	}
 
-		p->update(elapsedTime);
-	}
+	//	p->update(elapsedTime);
+	//}
 }
 
 void ObjectManager::render()
@@ -206,7 +207,7 @@ void ObjectManager::render()
 		m_myBulletList[i].render();
 	for (int i = 0; i < MAX_BULLET * 3; ++i)
 		m_OtherBulletList[i].render();
-	for (auto p = m_itemList.cbegin(); p != m_itemList.cend(); ++p) p->render();
+//	for (auto p = m_itemList.cbegin(); p != m_itemList.cend(); ++p) p->render();
 	for (auto p = m_tileList.cbegin(); p != m_tileList.cend(); ++p) p->render();
 
 }
