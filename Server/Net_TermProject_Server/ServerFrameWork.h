@@ -24,7 +24,10 @@ public:
 	~ServerFrameWork();
 
 public:	// 재욱
-	void arrivePlayer();
+	bool arrivePlayer(SOCKET& socket, int roomID);
+
+	int findVocantRoom(SOCKET& socket);	//빈 자리가 있는 룸을 찾아서 그 룸의 번호를 반환하는 함수
+
 	void leavePlayer();
 
 	void createNewRoom();

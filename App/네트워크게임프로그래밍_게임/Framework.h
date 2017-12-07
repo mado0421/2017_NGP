@@ -45,6 +45,6 @@ public:
 	GLvoid specialKeyDown(int key, int x, int y);
 	GLvoid specialKeyUp(int key, int x, int y);
 
-	bool changeScene(int idx);
+	bool changeScene(int idx, void* data);
 };
 

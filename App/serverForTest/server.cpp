@@ -73,7 +73,6 @@ int main(int argc, char *argv[])
 		while (1)
 		{
 			if (!g_testRoom->checkMsg(playerNum)) break;
-
 		}
 
 		g_testRoom->m_teamList[playerNum].m_socket = NULL;
@@ -84,7 +83,7 @@ int main(int argc, char *argv[])
 			inet_ntoa(clientaddr.sin_addr), ntohs(clientaddr.sin_port));
 	}
 
-	//closesocket()
+	// closesocket()
 	closesocket(listen_sock);
 
 	// 윈속 종료

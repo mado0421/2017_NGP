@@ -27,6 +27,18 @@ using namespace std;
 #define MAXROOMCOUNT	100
 #define THREADFREQ	3.0f
 
+#define MSGSIZE 1
+
+enum msg {
+	TEAMNO = 0,
+	ISREADY,
+	STARTPLAY,
+	LEAVE,
+	TEST,
+
+	OK,
+};
+
 struct Vector2D
 {
 	float x, y;
@@ -111,6 +123,44 @@ struct Room
 	void timeInit() {
 		m_past = chrono::system_clock::now();
 		m_ElapsedTime = 0;
+	}
+
+	bool checkAllPlayerInRoom()
+	{
+		char msg[MSGSIZE];
+		int retval;
+		for (int i = 0; i < MAX_PLAYER; ++i)
+		{
+			if (m_teamList[i].m_socket != NULL)
+			{
+				msg[0] = msg::ISREADY;
+				retval = send(m_teamList[i].m_socket, msg, MSGSIZE, 0);
+				if (retval == SOCKET_ERROR) return false;
+				retval = recvn(m_teamList[i].m_socket, msg, MSGSIZE, 0);
+				if (retval == SOCKET_ERROR) return false;
+			}
+			else return false;
+		}
+		return true;
+	}
+
+	bool gameStart()
+	{
+		char msg[MSGSIZE];
+		int retval;
+		for (int i = 0; i < MAX_PLAYER; ++i)
+		{
+			if (m_teamList[i].m_socket != NULL)
+			{
+				msg[0] = msg::STARTPLAY;
+				retval = send(m_teamList[i].m_socket, msg, MSGSIZE, 0);
+				if (retval == SOCKET_ERROR) return false;
+				retval = recvn(m_teamList[i].m_socket, msg, MSGSIZE, 0);
+				if (retval == SOCKET_ERROR) return false;
+			}
+			else return false;
+		}
+		return true;
 	}
 
 	///////////////////////////////////////////////

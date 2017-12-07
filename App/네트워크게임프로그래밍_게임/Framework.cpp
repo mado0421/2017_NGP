@@ -122,8 +122,9 @@ GLvoid Framework::specialKeyUp(int key, int x, int y)
 	renderScene();
 }
 
-bool Framework::changeScene(int idx)
+bool Framework::changeScene(int idx, void* data)
 {
+	int playerNumber;
 	switch (idx)
 	{
 	case SceneType::Title:
@@ -141,6 +142,6 @@ bool Framework::changeScene(int idx)
 	default:
 		return false;
 	}
-	m_currentScene->initialize();
+	m_currentScene->initialize(data);
 	return true;
 }

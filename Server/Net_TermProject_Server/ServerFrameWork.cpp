@@ -30,6 +30,41 @@ ServerFrameWork::~ServerFrameWork()
 {
 }
 
+bool ServerFrameWork::arrivePlayer(SOCKET& socket, int roomID)
+{
+	for (int i = 0; i < MAX_PLAYER; ++i)
+	{
+		if (room[roomID].m_teamList[i].m_socket == NULL)
+		{
+			room[roomID].m_teamList[i].m_socket = socket;
+			return true;
+		}
+	}
+	return false;
+}
+
+int ServerFrameWork::findVocantRoom(SOCKET& socket)
+{
+	for (int i = 0; i < MAXROOMCOUNT; ++i)
+	{
+		/*room[i]에 모든 플레이어가 있는게 아니면*/
+		if (!room[i].checkAllPlayerInRoom())
+		{
+			/*그 룸에 지금 들어온 애를 넣고*/
+			if (!room[i].playerArrive(socket, i)) return -2;
+
+			/*만약 지금 애 들어가서 그 룸이 4명이 되었으면*/
+			if (room[i].checkAllPlayerInRoom())
+			{
+				/*게임 스타트 시킴*/
+				room[i].gameStart();
+			}
+			return i;
+		}
+	}
+	return -1;
+}
+
 void ServerFrameWork::SetSocket(int RoomNumber, int PlayerId,SOCKET socket)
 {
 	room[RoomNumber].m_teamList[PlayerId].m_socket = socket;

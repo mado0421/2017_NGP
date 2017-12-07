@@ -14,7 +14,7 @@ public:
 	Scene(Framework *pFramework);
 	~Scene();
 public:
-	virtual void initialize() = 0;
+	virtual void initialize(void* data = nullptr) = 0;
 	virtual void leave() = 0;
 
 	virtual void update(float elapsedTime) = 0;
@@ -26,7 +26,8 @@ public:
 	virtual void specialKeyDown(int key, int x, int y) = 0;
 	virtual void specialKeyUp(int key, int x, int y) = 0;
 
-	virtual void changeScene(int idx);
+	virtual void changeScene(int idx, void *data = nullptr);
+	
 };
 
 class TitleScene : public Scene
@@ -37,7 +38,7 @@ public:
 	TitleScene(Framework *pFramework);
 	~TitleScene();
 public:
-	virtual void initialize();
+	virtual void initialize(void* data = nullptr);
 	virtual void leave();
 
 	virtual void update(float elapsedTime);
@@ -54,14 +55,8 @@ class LobbyScene : public Scene
 {
 private:
 public:
-	InfoTeam	m_teamInfo[MAX_PLAYER];
-	SOCKADDR_IN serveraddr;
-	WSADATA		wsa;
-	SOCKET		sock;
+	NetworkData *m_networkData = NULL;
 	int			retval;
-	char		ipAddr[BUFSIZE];
-	int			m_myTeamNo;
-
 	//--------------------for Test----------------------
 	bool		m_lightOn;
 	bool		m_connected;
@@ -71,7 +66,7 @@ public:
 	LobbyScene(Framework *pFramework);
 	~LobbyScene();
 public:
-	virtual void initialize();
+	virtual void initialize(void* data = nullptr);
 	virtual void leave();
 
 	virtual void update(float elapsedTime);
@@ -88,18 +83,23 @@ public:
 	virtual bool accessLobby();
 
 	virtual void leaveServer();
+
+	
 };
 
 class PlayScene : public Scene
 {
 private:
-	ObjectManager* m_objMng;
+	NetworkData		*m_networkData = NULL;
+	ObjectManager*  m_objMng;
+	HANDLE			hThread;
+	int				m_myTeam_No = 1;
 public:
 	PlayScene();
 	PlayScene(Framework *pFramework);
 	~PlayScene();
 public:
-	virtual void initialize();
+	virtual void initialize(void* data = nullptr);
 	virtual void leave();
 
 	virtual void update(float elapsedTime);
@@ -110,4 +110,9 @@ public:
 	virtual void keyUp(unsigned char key, int x, int y);
 	virtual void specialKeyDown(int key, int x, int y);
 	virtual void specialKeyUp(int key, int x, int y);
+	NetworkData* getNetworkData() { return m_networkData; }
+	ObjectManager* getObjectManager() { return m_objMng; }
 };
+
+
+//DWORD WINAPI communicateThreadFunc(LPVOID arg);

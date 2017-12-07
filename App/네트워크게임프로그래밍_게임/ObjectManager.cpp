@@ -4,6 +4,7 @@
 
 ObjectManager::ObjectManager()
 {
+
 }
 
 ObjectManager::~ObjectManager()
@@ -58,8 +59,11 @@ void ObjectManager::addBullet(float x, float y, int team)
 		{
 			if (p->isCanFire())
 			{
-				m_bulletList.emplace_back(p->getPos(),
+				/*m_bulletList.emplace_back(p->getPos(),
+				Vector::normalize(Vector2D(Vector::sub(p->getPos(), Vector2D(x, y)))), PLAYER_0);*/
+				m_myBulletList[m_bulletCount] = Bullet(p->getPos(),
 					Vector::normalize(Vector2D(Vector::sub(p->getPos(), Vector2D(x, y)))), PLAYER_0);
+				m_bulletCount++;
 				p->fire();
 			}
 			break;
@@ -108,17 +112,17 @@ void ObjectManager::update(float elapsedTime)
 	{
 		/*충돌검사*/
 		int team = p->getTeam();
-		for (auto bp = m_bulletList.begin(); bp != m_bulletList.end(); ++bp)
+		/*for (auto bp = m_bulletList.begin(); bp != m_bulletList.end(); ++bp)
 		{
-			if (bp->getTeam() != team)
-			{
-				if (p->isCollide(*bp))
-				{
-					p->addHp(-1);
-					bp->addHp(-1);
-				}
-			}
+		if (bp->getTeam() != team)
+		{
+		if (p->isCollide(*bp))
+		{
+		p->addHp(-1);
+		bp->addHp(-1);
 		}
+		}
+		}*/
 		for (auto ip = m_itemList.begin(); ip != m_itemList.end(); ++ip)
 		{
 			if (p->isCollide(*ip))
@@ -136,7 +140,6 @@ void ObjectManager::update(float elapsedTime)
 				}
 			}
 		}
-
 		/*체력검사*/
 		if (p->isDead())
 		{
@@ -149,33 +152,38 @@ void ObjectManager::update(float elapsedTime)
 		p->update(elapsedTime);
 	}
 
-	for (auto p = m_bulletList.begin(); p != m_bulletList.end(); ++p)
+	for (int i = 0; i<m_bulletCount; ++i)
 	{
 		for (auto tp = m_tileList.cbegin(); tp != m_tileList.cend(); ++tp)
 		{
 			if (tp->getType() == tile::Wall)
 			{
-				if (p->isCollideRect(*tp))
+				if (m_myBulletList[i].isCollideRect(*tp))
 				{
-					p->addHp(-1);
+					m_myBulletList[i].addHp(-1);
 				}
 			}
 		}
 
-		if (p->isDead())
+		if (m_myBulletList[i].isDead())
 		{
-			p = m_bulletList.erase(p);
-			if (p == m_bulletList.end()) break;
+			m_bulletCount--;
+			for (int j = i; j < MAX_BULLET-1; ++j)
+			{
+				m_myBulletList[j] = m_myBulletList[j + 1];
+			}
 			continue;
 		}
-		if (p->isOut())
+		if (m_myBulletList[i].isOut())
 		{
-			p = m_bulletList.erase(p);
-			if (p == m_bulletList.end()) break;
+			m_bulletCount--;
+			for (int j = i; j < MAX_BULLET - 1; ++j)
+			{
+				m_myBulletList[j] = m_myBulletList[j + 1];
+			}
 			continue;
 		}
-
-		p->update(elapsedTime);
+		m_myBulletList[i].update(elapsedTime);
 	}
 
 	for (auto p = m_itemList.begin(); p != m_itemList.end(); ++p)
@@ -194,8 +202,33 @@ void ObjectManager::update(float elapsedTime)
 void ObjectManager::render()
 {
 	for (auto p = m_playerList.cbegin(); p != m_playerList.cend(); ++p) p->render();
-	for (auto p = m_bulletList.cbegin(); p != m_bulletList.cend(); ++p) p->render();
+	for (int i = 0; i<m_bulletCount; ++i)
+		m_myBulletList[i].render();
+	for (int i = 0; i < MAX_BULLET * 3; ++i)
+		m_OtherBulletList[i].render();
 	for (auto p = m_itemList.cbegin(); p != m_itemList.cend(); ++p) p->render();
 	for (auto p = m_tileList.cbegin(); p != m_tileList.cend(); ++p) p->render();
 
+}
+
+void ObjectManager::updatePlayerInfo(InfoPlayer * p, InfoBullet* b)
+{
+
+	for (int i = 0, k = 0; i < 4; ++i, ++k)
+	{
+		if (i == m_myTeamNo)
+		{
+			--k;
+			continue;
+		}
+		m_playerList[i].setPos(p[i].m_pos);
+		for (int j = 0; j < MAX_BULLET; ++j)
+		{
+			m_OtherBulletList[k*MAX_BULLET + j].setPos(b[k*MAX_BULLET + j].m_pos);
+		}
+		//printf("%f,%f\n", m_playerList[i].getPos().x, m_playerList[i].getPos().y);
+	}
+	p[m_myTeamNo].m_pos = m_playerList[m_myTeamNo].getPos();
+	for (int i = 0; i < MAX_BULLET; ++i)
+		b[m_myTeamNo*MAX_BULLET + i].m_pos = m_myBulletList[i].getPos();
 }
