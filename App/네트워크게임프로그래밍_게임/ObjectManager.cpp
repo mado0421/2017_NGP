@@ -211,7 +211,7 @@ void ObjectManager::render()
 
 void ObjectManager::updatePlayerInfo()
 {
-	printf("update1::player1.bullet.x: %f\n", m_myBulletList[0].getPos().x);
+	
 	for (int i = 0, k = 0; i < 4; ++i, ++k)
 	{
 		m_playerList[i].setHp(s2cpacket.iPlayer[i].m_hp);
@@ -240,7 +240,7 @@ void ObjectManager::updatePlayerInfo()
 	c2spacket.player.m_hp = m_playerList[m_myTeamNo].getHp();
 	for (int i = 0; i < MAX_BULLET; ++i)
 		c2spacket.Bullets[i].m_pos = m_myBulletList[i].getPos();
-	printf("update2::player1.bullet.x: %f\n", m_myBulletList[0].getPos().x);
+	
 }
 
 void ObjectManager::updatePlayerInfoFirst()

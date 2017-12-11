@@ -48,6 +48,7 @@ void TitleScene::update(float elapsedTime)
 
 void TitleScene::render()
 {
+
 }
 
 void TitleScene::mouseInput(int button, int state, int x, int y)
@@ -315,8 +316,8 @@ void PlayScene::initialize(void* data)
 		changeScene(SceneType::Title);
 	}
 	m_myTeam_No = m_networkData->m_myTeamNo;
-	if (m_objMng == nullptr);
-		m_objMng = new ObjectManager();
+
+	m_objMng = new ObjectManager();
 	m_objMng->initialize(m_networkData->m_myTeamNo);
 	hCommunicateEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 	hUpdateEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
@@ -325,25 +326,27 @@ void PlayScene::initialize(void* data)
 
 void PlayScene::leave()
 {
-	closesocket(m_networkData->sock);
-	CloseHandle(hCommunicateEvent);
-	CloseHandle(hUpdateEvent);
-	delete m_objMng;
-	
+
 }
 
 void PlayScene::update(float elapsedTime)
 {
 	m_objMng->update(elapsedTime);
-	}
+	SetEvent(hCommunicateEvent);
+	ResetEvent(hUpdateEvent);
+}
 
 void PlayScene::render()
 {
 	m_objMng->render();
+	WaitForSingleObject(hUpdateEvent, 1000);
 }
 
 void PlayScene::mouseInput(int button, int state, int x, int y)
 {
+	printf("mouse wait 전\n");
+	WaitForSingleObject(hUpdateEvent, INFINITE);
+	printf("mouse wait 후\n");
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 	{
 		m_objMng->addBullet(x, y, m_myTeam_No);
@@ -356,8 +359,8 @@ void PlayScene::mouseInput(int button, int state, int x, int y)
 	{
 		/*for Test*/
 	}
-	/*SetEvent(hCommunicateEvent);
-	ResetEvent(hUpdateEvent);*/
+	SetEvent(hCommunicateEvent);
+	ResetEvent(hUpdateEvent);
 	
 }
 
@@ -441,39 +444,52 @@ DWORD WINAPI communicateThreadFunc(LPVOID arg)
 	PlayScene* playScene = (PlayScene*)arg;
 	int retval;
 	start = std::chrono::system_clock::now();
-	int msg = 0;
 	SOCKET sock = playScene->getNetworkData()->sock;
 	int num = playScene->getNetworkData()->m_myTeamNo;
 	playScene->getObjectManager()->updatePlayerInfoFirst();
 	//이건 씬 생성시로 옮겨도 될 듯
-	while (msg != ENDGAME)
+	send(sock, (char*)&c2spacket, sizeof(C2SPacket), 0);
+	retval = recvn(sock, (char*)&s2cpacket, sizeof(S2CPacket), 0);
+	ResetEvent(hCommunicateEvent);
+	SetEvent(hUpdateEvent);
+	while (1)
 	{
-		printf("communicate1::player1.bullet.x: %f\n", c2spacket.Bullets[0].m_pos.x);
+		
 		sec = std::chrono::system_clock::now() - start;
-		if (sec.count()>1 / 60)
+		//if (sec.count()>1 / 60)
 		{
+			printf("communicate wait 전\n");
+			WaitForSingleObject(hCommunicateEvent, INFINITE);
+			printf("communicate wait 후\n");
 			send(sock, (char*)&c2spacket, sizeof(C2SPacket), 0);
 			retval = recvn(sock, (char*)&s2cpacket, sizeof(S2CPacket), 0);
-			switch (msg)
+			if (retval == SOCKET_ERROR)
+			{
+				ResetEvent(hCommunicateEvent);
+				SetEvent(hUpdateEvent);
+				playScene->changeScene(SceneType::Title);
+				ExitThread(0);
+			}
+			switch (s2cpacket.Message)
 			{
 			case DATA:
 				start = std::chrono::system_clock::now();
 				ResetEvent(hCommunicateEvent);
 				SetEvent(hUpdateEvent);
-				printf("communicate2::player1.bullet.x: %f\n", c2spacket.Bullets[0].m_pos.x);
-				WaitForSingleObject(hCommunicateEvent, INFINITE);
+				
 				break;
 			case STARTGAME:
 				break;
 			case ENDGAME:
+				ResetEvent(hCommunicateEvent);
+				SetEvent(hUpdateEvent);
 				playScene->changeScene(SceneType::Title);
 				ExitThread(0);
 				break;
 			}
 		}
 	}
-	closesocket(sock);
-	WSACleanup();
+
 	return 0;
 }
 

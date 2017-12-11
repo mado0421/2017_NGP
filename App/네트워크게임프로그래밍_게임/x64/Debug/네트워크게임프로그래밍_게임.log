@@ -1,15 +1,8 @@
 ﻿  Scene.cpp
 c:\users\cyh\documents\github\2017_ngp_master\2017_ngp\app\네트워크게임프로그래밍_게임\object.h(175): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\cyh\documents\github\2017_ngp_master\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(265): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\cyh\documents\github\2017_ngp_master\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(266): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(136): note: 'strcpy' 선언을 참조하십시오.
-c:\users\cyh\documents\github\2017_ngp_master\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(270): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+c:\users\cyh\documents\github\2017_ngp_master\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(271): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   c:\program files (x86)\windows kits\10\include\10.0.15063.0\um\winsock2.h(1830): note: 'inet_addr' 선언을 참조하십시오.
-c:\users\cyh\documents\github\2017_ngp_master\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(318): warning C4390: ';': 제어된 빈 문이 있습니다. 이 문이 필요합니까?
-c:\users\cyh\documents\github\2017_ngp_master\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(349): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  ObjectManager.cpp
-c:\users\cyh\documents\github\2017_ngp_master\2017_ngp\app\네트워크게임프로그래밍_게임\object.h(175): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\cyh\documents\github\2017_ngp_master\2017_ngp\app\네트워크게임프로그래밍_게임\objectmanager.cpp(49): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\cyh\documents\github\2017_ngp_master\2017_ngp\app\네트워크게임프로그래밍_게임\objectmanager.cpp(113): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  코드를 생성하고 있습니다...
-c:\users\cyh\documents\github\2017_ngp_master\2017_ngp\app\네트워크게임프로그래밍_게임\objectmanager.cpp(128): warning C4715: 'ObjectManager::getPlayerDirection': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\cyh\documents\github\2017_ngp_master\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(352): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   네트워크게임프로그래밍_게임.vcxproj -> C:\Users\CYH\Documents\GitHub\2017_NGP_MASTER\2017_NGP\App\x64\Debug\네트워크게임프로그래밍_게임.exe

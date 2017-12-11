@@ -96,7 +96,7 @@ class PlayScene : public Scene
 {
 private:
 	NetworkData		*m_networkData = NULL;
-	ObjectManager*  m_objMng;
+	ObjectManager*  m_objMng = NULL;
 	HANDLE			hThread;
 	int				m_myTeam_No = 1;
 public:
