@@ -95,7 +95,7 @@ struct Vector2D
 };
 
 enum message {
-	DATA, STARTGAME, ENDGAME
+	DATA, ENDGAME, STARTGAME
 };
 
 namespace Vector
@@ -182,7 +182,7 @@ struct startData {
 };
 
 struct S2CPacket {	// Server to Client Packet 구조체 실제 데이터를 서버에서 보낼
-//	DWORD	Message;	//	HIWORD 메시지 타입
+	DWORD	Message;	//	HIWORD 메시지 타입
 						//	0번 Data, 1번 게임시작, 2번 게임종료…
 	InfoPlayer iPlayer[MAX_PLAYER];
 	InfoBullet iBullet[MAX_PLAYER][MAX_BULLET];

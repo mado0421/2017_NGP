@@ -315,7 +315,8 @@ void PlayScene::initialize(void* data)
 		changeScene(SceneType::Title);
 	}
 	m_myTeam_No = m_networkData->m_myTeamNo;
-	m_objMng = new ObjectManager();
+	if (m_objMng == nullptr);
+		m_objMng = new ObjectManager();
 	m_objMng->initialize(m_networkData->m_myTeamNo);
 	hCommunicateEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 	hUpdateEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
@@ -324,7 +325,11 @@ void PlayScene::initialize(void* data)
 
 void PlayScene::leave()
 {
+	closesocket(m_networkData->sock);
+	CloseHandle(hCommunicateEvent);
+	CloseHandle(hUpdateEvent);
 	delete m_objMng;
+	
 }
 
 void PlayScene::update(float elapsedTime)
@@ -382,6 +387,10 @@ void PlayScene::keyDown(unsigned char key, int x, int y)
 	case 'd':
 	case 'D':
 		m_objMng->changePlayerDirection('x', 1, m_myTeam_No);
+		break;
+	case 'P':
+	case 'p':
+		Sleep(2000);
 		break;
 	default:
 		break;
@@ -444,38 +453,26 @@ DWORD WINAPI communicateThreadFunc(LPVOID arg)
 	{
 		printf("communicate1::player1.bullet.x: %f\n", c2spacket.Bullets[0].m_pos.x);
 		sec = std::chrono::system_clock::now() - start;
-		//if (sec.count()>1 / 60)
+		if (sec.count()>1 / 60)
 		{
-			//memcpy(&(c2spacket.player), p, sizeof(InfoPlayer));
-			/*memcpy(&(c2spacket.player), &(p[num]), sizeof(InfoPlayer));
-			memcpy(&(c2spacket.Bullets), &(b[num*MAX_BULLET]), sizeof(InfoBullet)*MAX_BULLET);*/
 			send(sock, (char*)&c2spacket, sizeof(C2SPacket), 0);
-			//printf("communicate::player1.bullet.x: %f\n", c2spacket.Bullets[0].m_pos.x);
-			//retval = recvn(sock, (char*)&msg, MSGSIZE, 0);
+			retval = recvn(sock, (char*)&s2cpacket, sizeof(S2CPacket), 0);
 			switch (msg)
 			{
 			case DATA:
-				retval = recvn(sock, (char*)&s2cpacket, sizeof(S2CPacket), 0);
-				/*memcpy(p, &(s2cpacket.iPlayer), sizeof(InfoPlayer) * 4);
-				memcpy(b, &(s2cpacket.iBullet), sizeof(InfoBullet) * 72);*/
-				//printf("%f, %f", p[1].m_pos.x, p[1].m_pos.y);
-				//memcpy(p, data, sizeof(InfoPlayer) * 4);
-				//이걸 sc2packet을 바로 보내도 되지 않을까?
+				start = std::chrono::system_clock::now();
+				ResetEvent(hCommunicateEvent);
+				SetEvent(hUpdateEvent);
+				printf("communicate2::player1.bullet.x: %f\n", c2spacket.Bullets[0].m_pos.x);
+				WaitForSingleObject(hCommunicateEvent, INFINITE);
 				break;
 			case STARTGAME:
-				//pFramework->ChangeScene(PlayScene);
 				break;
 			case ENDGAME:
-				//pFramework->ChangeScene(TitleScene);
+				playScene->changeScene(SceneType::Title);
+				ExitThread(0);
 				break;
 			}
-			/*memcpy(&(c2spacket.player), p, sizeof(InfoPlayer) * 4);
-			send(sock, (char*)&c2spacket, sizeof(C2SPacket), 0);*/
-			start = std::chrono::system_clock::now();
-			ResetEvent(hCommunicateEvent);
-			SetEvent(hUpdateEvent);
-			printf("communicate2::player1.bullet.x: %f\n", c2spacket.Bullets[0].m_pos.x);
-			WaitForSingleObject(hCommunicateEvent, INFINITE);
 		}
 	}
 	closesocket(sock);

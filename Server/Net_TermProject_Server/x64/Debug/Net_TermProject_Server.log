@@ -1,11 +1,1 @@
-﻿  ServerFrameWork.cpp
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2018\2017_ngp\server\net_termproject_server\serverframework.cpp(58): warning C4312: '형식 캐스팅': 'int'에서 더 큰 'LPVOID'(으)로의 변환입니다.
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2018\2017_ngp\server\net_termproject_server\serverframework.cpp(96): warning C4305: '=': ''에서 'bool'(으)로 잘립니다.
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2018\2017_ngp\server\net_termproject_server\serverframework.cpp(142): warning C4311: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 포인터가 잘립니다.
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2018\2017_ngp\server\net_termproject_server\serverframework.cpp(142): warning C4302: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 잘립니다.
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2018\2017_ngp\server\net_termproject_server\serverframework.cpp(230): warning C4806: '!=': 안전하지 않은 연산입니다. 'bool' 형식의 값('' 형식으로 확장)이 주어진 상수와 같을 수 없습니다.
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2018\2017_ngp\server\net_termproject_server\serverframework.cpp(215): warning C4473: 'printf': 서식 문자열에 대한 인수가 충분하게 전달되지 않았습니다.
-  d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2018\2017_ngp\server\net_termproject_server\serverframework.cpp(215): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 2개 필요하지만 0개가 제공되었습니다.
-  d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2018\2017_ngp\server\net_termproject_server\serverframework.cpp(215): note: 누락된 variadic 인수 1이(가) 서식 문자열 '%d'에 필요합니다.
-  Net_TermProject_Server.vcxproj -> D:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2018\2017_NGP\Server\Net_TermProject_Server\x64\Debug\Net_TermProject_Server.exe
-  Net_TermProject_Server.vcxproj -> D:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2018\2017_NGP\Server\Net_TermProject_Server\x64\Debug\Net_TermProject_Server.pdb (Partial PDB)
+﻿  Net_TermProject_Server.vcxproj -> C:\Users\CYH\Documents\GitHub\2017_NGP_MASTER\2017_NGP\Server\Net_TermProject_Server\x64\Debug\Net_TermProject_Server.exe

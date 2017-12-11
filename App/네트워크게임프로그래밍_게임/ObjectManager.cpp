@@ -65,11 +65,12 @@ void ObjectManager::initialize(int team)
 
 void ObjectManager::addBullet(float x, float y, int team)
 {
+	
 	for (auto p = m_playerList.begin(); p != m_playerList.end(); ++p)
 	{
 		if (p->getTeam() == team)
 		{
-			if (p->isCanFire())
+			if (p->isCanFire()&&p->getHp()>0)
 			{
 				/*m_bulletList.emplace_back(p->getPos(),
 				Vector::normalize(Vector2D(Vector::sub(p->getPos(), Vector2D(x, y)))), PLAYER_0);*/
@@ -198,7 +199,7 @@ void ObjectManager::update(float elapsedTime)
 
 void ObjectManager::render()
 {
-	for (auto p = m_playerList.cbegin(); p != m_playerList.cend(); ++p) p->render();
+	for (auto p = m_playerList.cbegin(); p != m_playerList.cend(); ++p)if(p->getHp()>0) p->render();
 	for (int i = 0; i<MAX_BULLET; ++i)
 		m_myBulletList[i].render();
 	for (int i = 0; i < MAX_BULLET * 3; ++i)
