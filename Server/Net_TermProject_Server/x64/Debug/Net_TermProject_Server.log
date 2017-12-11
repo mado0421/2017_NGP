@@ -1,15 +1,14 @@
 ﻿  stdafx.cpp
   ServerFrameWork.cpp
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\last\2017_ngp\server\net_termproject_server\serverframework.cpp(76): warning C4312: '형식 캐스팅': 'int'에서 더 큰 'LPVOID'(으)로의 변환입니다.
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\last\2017_ngp\server\net_termproject_server\serverframework.cpp(113): warning C4305: '=': ''에서 'bool'(으)로 잘립니다.
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\last\2017_ngp\server\net_termproject_server\serverframework.cpp(137): warning C4101: 'index' :참조되지 않은 지역 변수입니다.
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\last\2017_ngp\server\net_termproject_server\serverframework.cpp(138): warning C4101: 'retval' :참조되지 않은 지역 변수입니다.
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\last\2017_ngp\server\net_termproject_server\serverframework.cpp(188): warning C4311: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 포인터가 잘립니다.
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\last\2017_ngp\server\net_termproject_server\serverframework.cpp(188): warning C4302: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 잘립니다.
+c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(76): warning C4312: '형식 캐스팅': 'int'에서 더 큰 'LPVOID'(으)로의 변환입니다.
+c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(113): warning C4305: '=': ''에서 'bool'(으)로 잘립니다.
+c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(137): warning C4101: 'index' :참조되지 않은 지역 변수입니다.
+c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(138): warning C4101: 'retval' :참조되지 않은 지역 변수입니다.
+c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(188): warning C4311: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 포인터가 잘립니다.
+c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(188): warning C4302: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 잘립니다.
   Net_TermProject_Server.cpp
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\last\2017_ngp\server\net_termproject_server\net_termproject_server.cpp(77): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\net_termproject_server.cpp(77): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   c:\program files (x86)\windows kits\10\include\10.0.14393.0\um\winsock2.h(1846): note: 'inet_ntoa' 선언을 참조하십시오.
-d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\last\2017_ngp\server\net_termproject_server\net_termproject_server.cpp(64): warning C4101: 'hThread' :참조되지 않은 지역 변수입니다.
+c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\net_termproject_server.cpp(64): warning C4101: 'hThread' :참조되지 않은 지역 변수입니다.
   코드를 생성하고 있습니다...
-  Net_TermProject_Server.vcxproj -> D:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\last\2017_NGP\Server\Net_TermProject_Server\x64\Debug\Net_TermProject_Server.exe
-  Net_TermProject_Server.vcxproj -> D:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\last\2017_NGP\Server\Net_TermProject_Server\x64\Debug\Net_TermProject_Server.pdb (Partial PDB)
+  Net_TermProject_Server.vcxproj -> C:\Users\sju42\Documents\GitHub\2017_NGP\Server\Net_TermProject_Server\x64\Debug\Net_TermProject_Server.exe

@@ -1,6 +1,14 @@
 #pragma once
 
-#define MAX_TEXTURE 1
+enum tex {
+	
+	
+	title_bg=0,
+	title_button,
+	etc,
+
+	MAX_TEXTURE
+};
 
 
 class Texture
@@ -15,6 +23,9 @@ public:
 
 	void init();
 	void render();
+	void render(float bottom, float top, float left, float right, int texIdx);
+	void render(float bottom, float top, float left, float right, int texIdx,
+		int width, int height, int x, int y);
 
 	GLubyte * LoadDIBitmap(const char * filename, BITMAPINFO **info);
 };

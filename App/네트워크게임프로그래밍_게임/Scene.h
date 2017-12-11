@@ -36,6 +36,12 @@ public:
 class TitleScene : public Scene
 {
 private:
+	int m_nIpAddrIcon = 0;
+	bool m_bNumpadIconHighlight[3][4];
+	bool m_bButtonIconHighlight[2];
+	char m_aIpAddr[16];
+public:
+	NetworkData *m_networkData = NULL;
 public:
 	TitleScene();
 	TitleScene(Framework *pFramework);
@@ -52,6 +58,9 @@ public:
 	virtual void keyUp(unsigned char key, int x, int y);
 	virtual void specialKeyDown(int key, int x, int y);
 	virtual void specialKeyUp(int key, int x, int y);
+
+	virtual bool accessLobby();
+
 };
 
 class LobbyScene : public Scene

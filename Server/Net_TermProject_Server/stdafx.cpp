@@ -35,14 +35,19 @@ bool Room::playerArrive(SOCKET& socket)
 			m_teamList[i].m_socket = socket;
 			int retval;
 			char msg[MSGSIZE];
-			msg[0] = msg::TEAMNO;
-			retval = send(socket, msg, MSGSIZE, 0);
+			retval = recvn(m_teamList[i].m_socket, msg, MSGSIZE, 0);
 			if (retval == SOCKET_ERROR) return false;
-			msg[0] = i;
-			retval = send(socket, msg, MSGSIZE, 0);
-			if (retval == SOCKET_ERROR) return false;
-
-			return true;
+			if (msg[0] == msg::OK)
+			{
+				msg[0] = msg::TEAMNO;
+				retval = send(socket, msg, MSGSIZE, 0);
+				if (retval == SOCKET_ERROR) return false;
+				msg[0] = i;
+				retval = send(socket, msg, MSGSIZE, 0);
+				if (retval == SOCKET_ERROR) return false;
+				return true;
+			}
+			return false;
 		}
 	}
 	return false;

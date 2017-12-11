@@ -27,8 +27,8 @@
 #define PLAYER_2 2
 #define PLAYER_3 3
 
-#define WWIDTH (21 * 32)
-#define WHEIGHT (21 * 32)
+#define WWIDTH 800
+#define WHEIGHT 800
 
 #define TILESIZE 16.0f
 #define SERVERIP "127.0.0.1"

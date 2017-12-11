@@ -24,6 +24,9 @@ GLvoid Framework::initialize(int argc, char **argv)
 		std::cout << " GLEW Version is 3.0\n ";
 	else std::cout << "GLEW 3.0 not supported\n ";
 	
+	m_pTexture = new Texture();
+	m_pTexture->init();
+
 	prevTime = timeGetTime();
 
 	m_scenes[SceneType::Title] = new TitleScene(this);
@@ -52,7 +55,15 @@ GLvoid Framework::renderScene(GLvoid)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.7f, 0.7f, 0.9f, 1.0f);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	m_currentScene->render();
+
+	glDisable(GL_BLEND);
+
+
 	curTime = timeGetTime();
 	float elapsedTime = (curTime - prevTime)*0.001;
 	if (elapsedTime > (1.0 / 60))

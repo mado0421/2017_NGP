@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "Texture.h"
 
 enum SceneType
 {
@@ -28,6 +29,8 @@ private:
 
 	DWORD	prevTime;
 	DWORD	curTime;
+public:
+	Texture *m_pTexture = NULL;
 public:
 	Framework();
 	~Framework();

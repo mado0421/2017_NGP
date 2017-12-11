@@ -11,19 +11,26 @@ Texture::~Texture()
 {
 }
 
+#define TEST
 void Texture::init()
 {
 	char name[64];
 
-	glGenTextures(6, m_textures);
+	glGenTextures(MAX_TEXTURE, m_textures);
 	for (int i = 0; i < MAX_TEXTURE; i++)
 	{
 		glBindTexture(GL_TEXTURE_2D, m_textures[i]);
 
-
+#ifdef TEST
+		sprintf(name, "assets/testImg/bmp%d.bmp", i);
+		m_texBits[i] = LoadDIBitmap(name, &m_bitInfo[i]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 1024, 1024, 0, GL_BGRA_EXT, GL_UNSIGNED_BYTE, m_texBits[i]);
+#else
 		sprintf(name, "assets/img/bmp%d.bmp", i);
 		m_texBits[i] = LoadDIBitmap(name, &m_bitInfo[i]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 256, 256, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, m_texBits[i]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1024, 1024, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, m_texBits[i]);
+#endif
+
 
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -37,14 +44,39 @@ void Texture::init()
 
 void Texture::render()
 {
-	glBindTexture(GL_TEXTURE_2D, textures[0]);
+	float left		= (WWIDTH / 4.0);
+	float right		= (3 * WWIDTH / 4.0);
+	float bottom	= (WHEIGHT / 4.0);
+	float top		= (3 * WHEIGHT / 4.0);
 
-	// top
+	glBindTexture(GL_TEXTURE_2D, m_textures[0]);
 	glBegin(GL_QUADS);
-	glTexCoord2f(0.0f, 1.0f); glVertex3fv(Point[0].arr);
-	glTexCoord2f(0.0f, 0.0f); glVertex3fv(Point[1].arr);
-	glTexCoord2f(1.0f, 0.0f); glVertex3fv(Point[2].arr);
-	glTexCoord2f(1.0f, 1.0f); glVertex3fv(Point[3].arr);
+	glTexCoord2f(0.0f, 0.0f); glVertex2f(left, bottom);
+	glTexCoord2f(0.0f, 1.0f); glVertex2f(left, top);
+	glTexCoord2f(1.0f, 1.0f); glVertex2f(right, top);
+	glTexCoord2f(1.0f, 0.0f); glVertex2f(right, bottom);
+	glEnd();
+}
+
+void Texture::render(float bottom, float top, float left, float right, int texIdx)
+{
+	glBindTexture(GL_TEXTURE_2D, m_textures[texIdx]);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 0.0f); glVertex2f(left, bottom);
+	glTexCoord2f(0.0f, 1.0f); glVertex2f(left, top);
+	glTexCoord2f(1.0f, 1.0f); glVertex2f(right, top);
+	glTexCoord2f(1.0f, 0.0f); glVertex2f(right, bottom);
+	glEnd();
+}
+
+void Texture::render(float bottom, float top, float left, float right, int texIdx, int wid, int hei, int x, int y)
+{
+	glBindTexture(GL_TEXTURE_2D, m_textures[texIdx]);
+	glBegin(GL_QUADS);
+	glTexCoord2f((1.0 / wid)*x,			1.0-(1.0 / hei)*((y + 1)));			glVertex2f(left, bottom);
+	glTexCoord2f((1.0 / wid)*x,			1.0-(1.0 / hei)*(y));					glVertex2f(left, top);
+	glTexCoord2f((1.0 / wid)*(x + 1),	1.0-(1.0 / hei)*(y));				glVertex2f(right, top);
+	glTexCoord2f((1.0 / wid)*(x + 1),	1.0-(1.0 / hei)*((y + 1)));			glVertex2f(right, bottom);
 	glEnd();
 }
 
