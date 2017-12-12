@@ -137,9 +137,11 @@ bool TitleScene::accessLobby()
 {
 	int retval;
 	// connet()
+	
 	ZeroMemory(&m_networkData->serveraddr, sizeof(m_networkData->serveraddr));
 	m_networkData->serveraddr.sin_family = AF_INET;
-	m_networkData->serveraddr.sin_addr.s_addr = inet_addr(m_aIpAddr);
+	//m_networkData->serveraddr.sin_addr.s_addr = inet_addr(m_aIpAddr);
+	m_networkData->serveraddr.sin_addr.s_addr = inet_addr("127.0.0.1");
 	m_networkData->serveraddr.sin_port = htons(SERVERPORT);
 	retval = connect(m_networkData->sock, (SOCKADDR *)&m_networkData->serveraddr, sizeof(m_networkData->serveraddr));
 	if (retval == SOCKET_ERROR) return false;
@@ -639,18 +641,19 @@ void PlayScene::leave()
 
 void PlayScene::update(float elapsedTime)
 {
+	printf("update wait 전\n");
+	WaitForSingleObject(hUpdateEvent, INFINITE);
+	printf("update wait 후\n");
 	m_objMng->update(elapsedTime);
 	SetEvent(hCommunicateEvent);
 	ResetEvent(hUpdateEvent);
+	printf("Communicate:on, update:off\n");
 }
 
 void PlayScene::render()
 {
 	glDisable(GL_BLEND);
-
 	m_objMng->render();
-	WaitForSingleObject(hUpdateEvent, 1000);
-
 	glEnable(GL_BLEND);
 }
 
@@ -662,6 +665,9 @@ void PlayScene::mouseInput(int button, int state, int x, int y)
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 	{
 		m_objMng->addBullet(x, y, m_myTeam_No);
+		SetEvent(hCommunicateEvent);
+		ResetEvent(hUpdateEvent);
+		printf("Communicate:on, update:off\n");
 	}
 	else if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
 	{
@@ -671,8 +677,7 @@ void PlayScene::mouseInput(int button, int state, int x, int y)
 	{
 		/*for Test*/
 	}
-	SetEvent(hCommunicateEvent);
-	ResetEvent(hUpdateEvent);
+	
 	
 }
 
@@ -751,6 +756,37 @@ void PlayScene::specialKeyUp(int key, int x, int y)
 //InfoPlayer p[4];
 //InfoBullet b[72];
 
+//void PlayScene::initialize(void* data)
+//{
+//	if (data != NULL)
+//	{
+//		m_networkData = (NetworkData*)data;
+//	}
+//	else
+//	{
+//		changeScene(SceneType::Title);
+//	}
+//	m_myTeam_No = m_networkData->m_myTeamNo;
+//
+//	m_objMng = new ObjectManager();
+//	m_objMng->initialize(m_networkData->m_myTeamNo);
+//	hCommunicateEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+//	hUpdateEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+//	hThread = CreateThread(NULL, 0, communicateThreadFunc, (void*)this, 0, NULL);
+//}
+
+
+//void PlayScene::update(float elapsedTime)
+//{
+//	printf("update wait 전\n");
+//	WaitForSingleObject(hUpdateEvent, INFINITE);
+//	printf("update wait 후\n");
+//	m_objMng->update(elapsedTime);
+//	SetEvent(hCommunicateEvent);
+//	ResetEvent(hUpdateEvent);
+//	printf("Communicate:on, update:off\n");
+//}
+
 DWORD WINAPI communicateThreadFunc(LPVOID arg)
 {
 	PlayScene* playScene = (PlayScene*)arg;
@@ -764,42 +800,43 @@ DWORD WINAPI communicateThreadFunc(LPVOID arg)
 	retval = recvn(sock, (char*)&s2cpacket, sizeof(S2CPacket), 0);
 	ResetEvent(hCommunicateEvent);
 	SetEvent(hUpdateEvent);
+	printf("Communicate:off, update:on\n");
 	while (1)
 	{
-		
-		sec = std::chrono::system_clock::now() - start;
-		//if (sec.count()>1 / 60)
+		printf("communicate wait 전\n");
+		WaitForSingleObject(hCommunicateEvent, INFINITE);
+		printf("communicate wait 후\n");
+		send(sock, (char*)&c2spacket, sizeof(C2SPacket), 0);
+		printf("send보냄\n");
+		retval = recvn(sock, (char*)&s2cpacket, sizeof(S2CPacket), 0);
+		printf("recvn 지나감\n");
+		if (retval == SOCKET_ERROR)
 		{
-			printf("communicate wait 전\n");
-			WaitForSingleObject(hCommunicateEvent, INFINITE);
-			printf("communicate wait 후\n");
-			send(sock, (char*)&c2spacket, sizeof(C2SPacket), 0);
-			retval = recvn(sock, (char*)&s2cpacket, sizeof(S2CPacket), 0);
-			if (retval == SOCKET_ERROR)
-			{
-				ResetEvent(hCommunicateEvent);
-				SetEvent(hUpdateEvent);
-				playScene->changeScene(SceneType::Title);
-				ExitThread(0);
-			}
-			switch (s2cpacket.Message)
-			{
-			case DATA:
-				start = std::chrono::system_clock::now();
-				ResetEvent(hCommunicateEvent);
-				SetEvent(hUpdateEvent);
-				
-				break;
-			case STARTGAME:
-				break;
-			case ENDGAME:
-				ResetEvent(hCommunicateEvent);
-				SetEvent(hUpdateEvent);
-				playScene->changeScene(SceneType::Title);
-				ExitThread(0);
-				break;
-			}
+			ResetEvent(hCommunicateEvent);
+			SetEvent(hUpdateEvent);
+			printf("Communicate:off, update:on\n");
+			playScene->changeScene(SceneType::Title);
+			ExitThread(0);
 		}
+		switch (s2cpacket.Message)
+		{
+		case DATA:
+			start = std::chrono::system_clock::now();
+			ResetEvent(hCommunicateEvent);
+			SetEvent(hUpdateEvent);
+			printf("Communicate:off, update:on\n");
+			break;
+		case STARTGAME:
+			break;
+		case ENDGAME:
+			ResetEvent(hCommunicateEvent);
+			SetEvent(hUpdateEvent);
+			printf("Communicate:off, update:on\n");
+			playScene->changeScene(SceneType::Title);
+			ExitThread(0);
+			break;
+		}
+
 	}
 
 	return 0;

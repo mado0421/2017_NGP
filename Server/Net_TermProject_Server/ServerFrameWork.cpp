@@ -190,6 +190,7 @@ DWORD ServerFrameWork::GameThread(LPVOID arg)
 	int retCalc;
 	while (true)
 	{
+		printf("게임 쓰레드 입장\n");
 		//	wait queue
 #ifdef DEBUGMODE
 		printf("[%d]before hGameThread\n",roomIndex);
@@ -204,6 +205,7 @@ DWORD ServerFrameWork::GameThread(LPVOID arg)
 		printf("[%d]before hCommunicated\n", roomIndex);
 #endif
 		retEvent = WaitForMultipleObjects(MAX_PLAYER, hCommunicated[roomIndex], TRUE, INFINITE);	
+		printf("wait종료\n");
 #ifdef DEBUGMODE
 		printf("[%d]after hCommunicated\n", roomIndex);
 #endif
@@ -307,6 +309,7 @@ int ServerFrameWork::ReceivePacketFromClient(int roomNum, int PlayerID)
 	int retval;
 
 	retval = recvn(TeamList(roomNum, PlayerID).m_socket,(char*)&packet, sizeof(C2SPacket), 0);
+	printf("데이터 수신 %d번\n", PlayerID);
 	if (retval == SOCKET_ERROR)
 		return SOCKET_ERROR;
 
@@ -329,6 +332,7 @@ void ServerFrameWork::SendPacketToClient(S2CPacket * packet, int roomNum)
 		//packet->SendTime = chrono::system_clock::now();
 		packet->Message = data;
 		send(client_sock[i], (char*)packet, sizeof(S2CPacket), 0);
+		printf("데이터 송신 %d번\n", i);
 	}
 }
 
