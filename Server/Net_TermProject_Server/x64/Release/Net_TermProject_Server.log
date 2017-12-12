@@ -1,1 +1,13 @@
-﻿  Net_TermProject_Server.vcxproj -> C:\Users\CYH\Documents\GitHub\2017_NGP\Server\Net_TermProject_Server\x64\Release\Net_TermProject_Server.exe
+﻿  ServerFrameWork.cpp
+ServerFrameWork.cpp(76): warning C4312: '형식 캐스팅': 'int'에서 더 큰 'LPVOID'(으)로의 변환입니다.
+ServerFrameWork.cpp(113): warning C4305: '=': ''에서 'bool'(으)로 잘립니다.
+ServerFrameWork.cpp(138): warning C4101: 'index' :참조되지 않은 지역 변수입니다.
+ServerFrameWork.cpp(139): warning C4101: 'retval' :참조되지 않은 지역 변수입니다.
+ServerFrameWork.cpp(189): warning C4311: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 포인터가 잘립니다.
+ServerFrameWork.cpp(189): warning C4302: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 잘립니다.
+  코드를 생성하고 있습니다.
+  26 of 258 functions (10.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    6 functions had inline decision re-evaluated but remain unchanged
+  코드를 생성했습니다.
+  Net_TermProject_Server.vcxproj -> D:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_NGP\Server\Net_TermProject_Server\x64\Release\Net_TermProject_Server.exe

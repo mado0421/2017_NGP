@@ -70,7 +70,7 @@ void ServerFrameWork::InitRoom(int roomIndex)
 		p[i].playerNum = i;
 		hTmp = CreateThread(NULL, 0, CommunicationPlayer, (LPVOID)&p[i], 0, NULL);
 		CloseHandle(hTmp);
-		Sleep(100);
+		//Sleep(100);
 	}
 	Sleep(100);
 	hTmp = CreateThread(NULL, 0, GameThread, (LPVOID)roomIndex, 0, NULL);
@@ -84,7 +84,7 @@ void ServerFrameWork::GameStart(int roomIndex)
 	for (int i = 0; i < MAX_PLAYER; ++i) {
 		SetEvent(hSendPacket[roomIndex][i]);
 		//NOTUSESLEEP
-		Sleep(100);
+		//Sleep(100);
 	}
 	bOrder[roomIndex] = true;
 	m_insQueue.push(roomIndex);
