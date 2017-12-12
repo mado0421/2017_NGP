@@ -52,3 +52,31 @@ bool Room::playerArrive(SOCKET& socket)
 	}
 	return false;
 }
+
+bool loadMapFile(char *fileDirectory, vector<Tile>& list)
+{
+	ifstream mapFile(fileDirectory);
+	if (mapFile.is_open())
+	{
+		int type;
+		int texIdx;
+		int x;
+		int y;
+		while (!mapFile.eof())
+		{
+			mapFile >> type >> texIdx >> x >> y;
+			list.emplace_back(Vector2D(
+				x * TILESIZE * 2.0 + TILESIZE,
+				y* TILESIZE * 2.0 + TILESIZE),
+				type);
+		}
+		list.pop_back();
+	}
+	else
+	{
+		mapFile.close();
+		return false;
+	}
+	mapFile.close();
+	return true;
+}

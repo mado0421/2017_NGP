@@ -19,6 +19,7 @@
 #include<vector>
 #include<queue>
 #include<algorithm>
+#include<fstream>
 using namespace std;
 
 #define SERVERPORT 9000
@@ -31,11 +32,16 @@ using namespace std;
 #define BULLETSPD 320.0f
 #define BULLETSIZE 2.5f
 #define BULLETDAMAGE 1
-#define NOTEXIST	1'000'000
+#define NOTEXIST	0
 
+#define ITEMSIZE 7.5f
+#define ITEMCOOLTIME	10.0f
+#define TILESIZE	16
+#define TILEMAXCNT	100
 
 #define PLAYERSPD 125.0f
 #define PLAYERSIZE 7.5f
+#define PLAYERMAXHP	3
 #define MAX_AMMO 6
 
 #define MAXROOMCOUNT	100
@@ -49,6 +55,16 @@ using namespace std;
 #define MSGSIZE 1
 int recvn(SOCKET s, char *buf, int len, int flags);
 
+template <class val>
+inline void clamp(val& c, val min, val max)
+{
+	if (max < min) 
+		swap(min, max);
+	if (c > max)c = max;
+	if (c < min)c = min;
+}
+
+
 enum msg {
 	TEAMNO = 0,
 	ISREADY,
@@ -58,6 +74,7 @@ enum msg {
 
 	OK,
 };
+
 struct Vector2D
 {
 	float x, y;
@@ -76,25 +93,31 @@ namespace Vector
 	inline Vector2D sub(Vector2D from, Vector2D to) { return Vector2D(to.x - from.x, to.y - from.y); }
 }
 
+enum {
+	dead,normal,burst
+};
+
 struct InfoPlayer {
 	Vector2D m_pos;
 	int m_hp;
-	//int m_state;
+	int m_state;
 };
 
 inline bool IsPlayerDead(int arg) {
-	if (arg <= 0)return true;
-	else return false;
+	if (arg <= 0)
+		return true;
+	else 
+		return false;
 }
 
 struct InfoBullet {
 	Vector2D m_pos;
-	//int m_type;
+	int m_damage;
 };
 
-inline bool IsExistBullet(float posX)
+inline bool IsExistBullet(int damage)
 {
-	if (posX == NOTEXIST)
+	if (damage == NOTEXIST)
 		return false;
 	else 
 		return true;
@@ -102,11 +125,12 @@ inline bool IsExistBullet(float posX)
 
 inline void DestroyBullet(InfoBullet* bullet) 
 {
-	bullet->m_pos.x = NOTEXIST;
+	bullet->m_damage = NOTEXIST;
 }
 
+#define BUFFDURATION	5.0f
 enum {
-	empty=0,medikit, reinforce
+	notExist = 0, medikit, reinforce
 };
 
 struct InfoItem {
@@ -120,6 +144,37 @@ struct InfoTeam {
 	InfoBullet m_bullets[MAX_BULLET];
 };
 
+struct BuffInfo
+{
+	int roomIndex, PlayerID;
+	float duration;
+	chrono::system_clock::time_point occurTime;
+	BuffInfo(){}
+	BuffInfo(int ri, int pid, float d) :
+		roomIndex(ri), PlayerID(pid), duration(d)
+	{
+		occurTime = chrono::system_clock::now();
+	}
+	BuffInfo(int ri,int pid,float d, 
+		chrono::system_clock::time_point t):
+		roomIndex(ri),PlayerID(pid),duration(d),occurTime(t) {}
+	inline bool endcheck(chrono::system_clock::time_point other)
+	{
+		if (chrono::duration_cast<chrono::milliseconds>
+			(other - occurTime).count()*0.001f >= duration)
+			return true;
+		return false;
+	}
+};
+
+bool inline isItemCooltime(chrono::system_clock::time_point time)
+{
+	if (chrono::duration_cast<chrono::milliseconds>
+		(chrono::system_clock::now() - time).count()*0.001f >= ITEMCOOLTIME)
+		return true;
+	return false;
+}
+
 #define TeamList(RoomIndex,PlayerIndex) room[RoomIndex].m_teamList[PlayerIndex]
 
 bool inline IsZero(float a) {
@@ -128,6 +183,37 @@ bool inline IsZero(float a) {
 	else 
 		return false;
 }
+
+bool inline rectCollideCheck(Vector2D a, float aSize,
+	Vector2D b, float bSize)
+{
+	if (a.x - aSize > b.x + bSize)return false;
+	if (a.x + aSize < b.x - bSize)return false;
+	if (a.y - aSize > b.y + bSize)return false;
+	if (a.y + aSize < b.y - bSize)return false;
+	return true;
+}
+
+enum tile
+{
+	Wall = 0,
+	PSpawn,
+	ISpawn,
+};
+
+struct Tile
+{
+	Vector2D m_pos;
+	int m_type;
+	int m_size;
+	Tile() {}
+	Tile(Vector2D v, int t):m_pos(v),m_type(t) {}
+
+	//int getType() const { return m_type; }
+};
+
+bool loadMapFile(char *fileDirectory, vector<Tile>& list);
+
 
 enum {
 	Lobby = false, Play = true, closing = 4
@@ -247,6 +333,7 @@ struct S2CPacket
 	DWORD	Message;	//	0번 Data, 1번 게임종료
 	InfoPlayer iPlayer[MAX_PLAYER];
 	InfoBullet iBullet[MAX_PLAYER][MAX_BULLET];
+	InfoItem iItem[MAX_ITEM];
 //	chrono::system_clock::time_point SendTime;
 	
 	void SetPacket(int roomNumber, Room& room)
@@ -258,6 +345,7 @@ struct S2CPacket
 		{
 			memcpy(&iPlayer[i], &iTeam[i].m_player, sizeof(InfoPlayer));
 			memcpy(&iBullet[i], &iTeam[i].m_bullets, sizeof(InfoBullet)*MAX_BULLET);
+			memcpy(&iItem[i], &room.m_itemList, sizeof(InfoItem)*MAX_ITEM);
 		}
 	};
 };
@@ -269,3 +357,6 @@ struct C2SPacket
 };
 
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
+
+
+
