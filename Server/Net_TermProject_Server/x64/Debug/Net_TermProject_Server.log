@@ -1,8 +1,9 @@
 ﻿  ServerFrameWork.cpp
-c:\users\cyh\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(76): warning C4312: '형식 캐스팅': 'int'에서 더 큰 'LPVOID'(으)로의 변환입니다.
-c:\users\cyh\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(113): warning C4305: '=': ''에서 'bool'(으)로 잘립니다.
-c:\users\cyh\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(137): warning C4101: 'index' :참조되지 않은 지역 변수입니다.
-c:\users\cyh\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(138): warning C4101: 'retval' :참조되지 않은 지역 변수입니다.
-c:\users\cyh\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(188): warning C4311: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 포인터가 잘립니다.
-c:\users\cyh\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(188): warning C4302: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 잘립니다.
-  Net_TermProject_Server.vcxproj -> C:\Users\CYH\Documents\GitHub\2017_NGP\Server\Net_TermProject_Server\x64\Debug\Net_TermProject_Server.exe
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\serverframework.cpp(76): warning C4312: '형식 캐스팅': 'int'에서 더 큰 'LPVOID'(으)로의 변환입니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\serverframework.cpp(113): warning C4305: '=': ''에서 'bool'(으)로 잘립니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\serverframework.cpp(138): warning C4101: 'index' :참조되지 않은 지역 변수입니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\serverframework.cpp(139): warning C4101: 'retval' :참조되지 않은 지역 변수입니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\serverframework.cpp(189): warning C4311: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 포인터가 잘립니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\serverframework.cpp(189): warning C4302: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 잘립니다.
+  Net_TermProject_Server.vcxproj -> D:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_NGP\Server\Net_TermProject_Server\x64\Debug\Net_TermProject_Server.exe
+  Net_TermProject_Server.vcxproj -> D:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_NGP\Server\Net_TermProject_Server\x64\Debug\Net_TermProject_Server.pdb (Partial PDB)

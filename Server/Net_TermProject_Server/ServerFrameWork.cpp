@@ -128,7 +128,8 @@ void ServerFrameWork::CloseRoom(int roomIndex)
 		TeamList(roomIndex, i).m_socket = NULL;
 	}
 	CloseHandle(hGameThread[roomIndex]);
-
+	
+	m_delQueue.push(roomIndex);
 	room[roomIndex].m_roomState = Lobby;
 }
 
@@ -160,10 +161,10 @@ DWORD ServerFrameWork::ThreadOrder(LPVOID arg)
 						bOrder[p] = false;
 					}
 				}
-				else
-				{
-					m_delQueue.push(p);
-				}
+				//else
+				//{
+				//	m_delQueue.push(p);
+				//}
 			}
 			while (!m_delQueue.empty())
 			{
@@ -177,7 +178,7 @@ DWORD ServerFrameWork::ThreadOrder(LPVOID arg)
 			t_order_end = chrono::system_clock::now();
 			elapsedTime = chrono::duration_cast<chrono::milliseconds>
 				(t_order_end - t_order_start).count()*0.001f;
-			Sleep(4);
+			Sleep(1);
 		}
 	}
 	return 0;
@@ -195,11 +196,13 @@ DWORD ServerFrameWork::GameThread(LPVOID arg)
 #ifdef DEBUGMODE
 		printf("[%d]before hGameThread\n",roomIndex);
 #endif
+		printf("[%d]before hGameThread\n", roomIndex);
 		WaitForSingleObject(hGameThread[roomIndex], INFINITE);
 		
 #ifdef DEBUGMODE
 		printf("[%d]after hGameThread\n", roomIndex);
 #endif
+		printf("[%d]after hGameThread\n", roomIndex);
 		//	wait Communication
 #ifdef DEBUGMODE
 		printf("[%d]before hCommunicated\n", roomIndex);
@@ -309,7 +312,7 @@ int ServerFrameWork::ReceivePacketFromClient(int roomNum, int PlayerID)
 	int retval;
 
 	retval = recvn(TeamList(roomNum, PlayerID).m_socket,(char*)&packet, sizeof(C2SPacket), 0);
-	printf("데이터 수신 %d번\n", PlayerID);
+	//printf("데이터 수신 %d번\n", PlayerID);
 	if (retval == SOCKET_ERROR)
 		return SOCKET_ERROR;
 
@@ -332,7 +335,7 @@ void ServerFrameWork::SendPacketToClient(S2CPacket * packet, int roomNum)
 		//packet->SendTime = chrono::system_clock::now();
 		packet->Message = data;
 		send(client_sock[i], (char*)packet, sizeof(S2CPacket), 0);
-		printf("데이터 송신 %d번\n", i);
+		//printf("데이터 송신 %d번\n", i);
 	}
 }
 
