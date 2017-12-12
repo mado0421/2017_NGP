@@ -197,6 +197,12 @@ Item::~Item()
 
 void Item::render() const
 {
+	m_pTexture->render(
+		m_pos.y - BULLETSIZE * 4,
+		m_pos.y + BULLETSIZE * 4,
+		m_pos.x - BULLETSIZE * 4,
+		m_pos.x + BULLETSIZE * 4,
+		tex::etc, 16, 16, 8, 0);
 }
 
 Tile::Tile()

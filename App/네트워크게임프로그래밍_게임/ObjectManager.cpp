@@ -214,6 +214,8 @@ void ObjectManager::render()
 	for (int i = 0; i < MAX_BULLET * 3; ++i)
 		m_OtherBulletList[i].render();
 //	for (auto p = m_itemList.cbegin(); p != m_itemList.cend(); ++p) p->render();
+	for (int i = 0; i < MAX_ITEM; ++i)
+		m_itemList[i].render();
 	for (auto p = m_tileList.cbegin(); p != m_tileList.cend(); ++p) p->render();
 
 
