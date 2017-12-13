@@ -61,10 +61,13 @@ void ObjectManager::initialize(int team)
 	
 	for (int i = 0; i < MAX_BULLET; ++i)
 	{
-		m_myBulletList[i].setPos(Vector2D(INVALID, 0));
+		m_myBulletList[i].setPos(Vector2D(0, 0));
 		m_myBulletList[i].setDirection(Vector2D(0, 0));
 		m_myBulletList[i].setTexture(m_pTexture);
 		m_myBulletList[i].setDamage(0);
+		m_myBulletList[i].setSize(2.5f);
+		m_myBulletList[i].setHp(1);
+		m_myBulletList[i].setTexture(m_pTexture);
 	}
 	for (int i = 0; i < MAX_BULLET * 3; ++i)
 	{
@@ -220,9 +223,10 @@ void ObjectManager::update(float elapsedTime)
 void ObjectManager::render()
 {
 	for (auto p = m_playerList.cbegin(); p != m_playerList.cend(); ++p)if(p->getHp()>0) p->render();
-	for (int i = 0; i<MAX_BULLET; ++i)
-		if(m_myBulletList[i].getDamage()>0)
+	for (int i = 0; i < MAX_BULLET; ++i)
+		if (m_myBulletList[i].getDamage() > 0)
 			m_myBulletList[i].render();
+			//m_myBulletList[i].render();
 	for (int i = 0; i < MAX_BULLET * 3; ++i)
 		if (m_OtherBulletList[i].getDamage()>0)
 			m_OtherBulletList[i].render();
@@ -275,7 +279,8 @@ void ObjectManager::updatePlayerInfo()
 		{
 			for (int j = 0; j < MAX_BULLET; ++j)
 			{
-				m_myBulletList[j].setDamage(s2cpacket.iBullet[i][j].m_damage);
+				if(m_myBulletList[j].getDamage()!=0)
+					m_myBulletList[j].setDamage(s2cpacket.iBullet[i][j].m_damage);
 			}
 			m_playerList[i].setState(s2cpacket.iPlayer[i].m_state);
 			--k;

@@ -17,6 +17,7 @@ void Object::update(float elapsedTime)
 
 void Object::render() const
 {
+#ifdef LETSDEBUGTIME
 	glPushMatrix();
 	glColor3f(m_color.r, m_color.g, m_color.b);
 	glTranslatef(m_pos.x, m_pos.y, 0.0f);
@@ -24,6 +25,7 @@ void Object::render() const
 	glutSolidCube(m_size * 2.0);
 
 	glPopMatrix();
+#endif
 }
 
 bool Object::isOut()
@@ -71,19 +73,12 @@ Player::~Player()
 void Player::render() const
 {
 	glPushMatrix();
-
 	m_pTexture->render(
 		m_pos.y - PLAYERSIZE,
 		m_pos.y + PLAYERSIZE,
 		m_pos.x - PLAYERSIZE,
 		m_pos.x + PLAYERSIZE,
 		tex::etc, 16, 16, 8, 1+m_team);
-
-	//glColor3f(m_color.r, m_color.g, m_color.b);
-	//glTranslatef(m_pos.x, m_pos.y, 0.0f);
-
-	//glutSolidCube(m_size * 2.0);
-
 	glPopMatrix();
 }
 
@@ -163,19 +158,11 @@ void Bullet::render() const
 {
 	glPushMatrix();
 	m_pTexture->render(
-		m_pos.y - BULLETSIZE*4,
-		m_pos.y + BULLETSIZE*4,
-		m_pos.x - BULLETSIZE*4,
-		m_pos.x + BULLETSIZE*4,
-		tex::etc, 16, 16, 9+m_team*0.2, 0);
-	//m_pTexture->render(
-	//	m_pos.y - BULLETIMGSIZE,
-	//	m_pos.y + BULLETIMGSIZE,
-	//	m_pos.x - BULLETIMGSIZE,
-	//	m_pos.x + BULLETIMGSIZE,
-	//	tex::etc,
-	//	16, 16, 9, 0);
-
+		WWIDTH*0.9,
+		WWIDTH*0.9,
+		WWIDTH*0.9,
+		WWIDTH*0.9,
+		tex::etc, 16, 16, 9 + m_team*0.2, 0);
 	glPopMatrix();
 }
 
@@ -197,12 +184,15 @@ Item::~Item()
 
 void Item::render() const
 {
+	glPushMatrix();
 	m_pTexture->render(
 		m_pos.y - BULLETSIZE * 4,
 		m_pos.y + BULLETSIZE * 4,
 		m_pos.x - BULLETSIZE * 4,
 		m_pos.x + BULLETSIZE * 4,
 		tex::etc, 16, 16, 8, 0);
+	glPopMatrix();
+
 }
 
 Tile::Tile()
@@ -224,7 +214,8 @@ void Tile::render() const
 			m_pos.x - WALLSIDESIZE,
 			m_pos.x + WALLSIDESIZE,
 			tex::etc,
-			16, 16, 8, 5);
+			16, 16, 9, 5);
+		/*
 		m_pTexture->render(
 			m_pos.y + WALLSIDESIZE - WALLTOPSIZE,
 			m_pos.y + WALLSIDESIZE + WALLTOPSIZE,
@@ -232,12 +223,7 @@ void Tile::render() const
 			m_pos.x + WALLSIDESIZE,
 			tex::etc,
 			16, 16, 9, 5);
-
-		//glColor3f(m_color.r, m_color.g, m_color.b);
-		//glTranslatef(m_pos.x, m_pos.y, 0.0f);
-
-		//glutSolidCube(m_size * 2.0);
-
+		*/
 		glPopMatrix();
 	}
 }

@@ -2,12 +2,6 @@
 #include "Scene.h"
 #include "Texture.h"
 
-enum SceneType
-{
-	Title=0,
-	Lobby,
-	Play
-};
 
 GLvoid initialize(GLvoid);
 GLvoid run(GLvoid);

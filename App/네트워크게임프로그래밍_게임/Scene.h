@@ -93,8 +93,6 @@ public:
 	virtual void specialKeyUp(int key, int x, int y);
 
 	virtual bool checkMsg();
-	/*Room에 몇 번째로 입장했는지 알아야 몇 번 플레이어인지 알 수 있음*/
-	virtual bool accessLobby();
 
 	virtual void leaveServer();
 
@@ -127,29 +125,6 @@ public:
 	NetworkData* getNetworkData() { return m_networkData; }
 	ObjectManager* getObjectManager() { return m_objMng; }
 };
-
-class ResultScene : public Scene
-{
-protected:
-	Framework *m_pFramework;
-public:
-	ResultScene();
-	ResultScene(Framework *pFramework);
-	~ResultScene();
-public:
-	virtual void initialize(void* data = nullptr);
-	virtual void leave();
-
-	virtual void update(float elapsedTime);
-	virtual void render();
-
-	virtual void mouseInput(int button, int state, int x, int y);
-	virtual void keyDown(unsigned char key, int x, int y);
-	virtual void keyUp(unsigned char key, int x, int y);
-	virtual void specialKeyDown(int key, int x, int y);
-	virtual void specialKeyUp(int key, int x, int y);
-};
-
 
 DWORD WINAPI communicateThreadFunc(LPVOID arg);
 DWORD WINAPI waitThreadFunc(LPVOID arg);

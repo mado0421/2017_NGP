@@ -30,16 +30,28 @@
 #define WWIDTH 800
 #define WHEIGHT 800
 
-#define TILESIZE 16.0f
 #define SERVERIP "127.0.0.1"
-#define BUFSIZE 256
 #define SERVERPORT 9000
+#define BUFSIZE 256
+
 #define MSGSIZE 1
 #define MSGSIZE2 4
+
 #define MAX_BULLET 18
 #define MAX_PLAYER 4
 #define MAX_ITEM 3
+#define TILESIZE 16.0f
+
 #define INVALID 1000000
+
+#define LETSDEBUGTIME
+
+enum SceneType
+{
+	Title = 0,
+	Lobby,
+	Play
+};
 
 enum msg {
 	TEAMNO = 0,
@@ -56,6 +68,10 @@ enum waitState {
 	wait,
 	error,
 	success
+};
+
+enum message {
+	DATA, ENDGAME, STARTGAME
 };
 
 struct NetworkData
@@ -95,9 +111,6 @@ struct Vector2D
 	~Vector2D() {}
 };
 
-enum message {
-	DATA, ENDGAME, STARTGAME
-};
 
 namespace Vector
 {
@@ -192,7 +205,6 @@ struct S2CPacket {	// Server to Client Packet 구조체 실제 데이터를 서버에서 보낼
 	//std::chrono::system_clock::time_point SendTime;
 
 };
-
 
 struct C2SPacket {
 	InfoPlayer player;

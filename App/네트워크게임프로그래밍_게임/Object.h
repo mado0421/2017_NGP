@@ -59,26 +59,26 @@ public:
 
 	virtual void move(float val);
 
-	void setHp(int val)				{ m_hp = val; }
-	void setPos(Vector2D pos)		{ m_pos = pos; }
-	void setSpd(float val)			{ m_spd = val; }
-	void setColor(Color color)		{ m_color = color; }
-	void setStandardTime(float val) { m_standardTime = val; }
-	void setSize(float f)			{ m_size = f; }
-	void setTexture(Texture* pTexture) { m_pTexture = pTexture; }
+	void setHp(int val)					{ m_hp = val; }
+	void setPos(Vector2D pos)			{ m_pos = pos; }
+	void setSpd(float val)				{ m_spd = val; }
+	void setColor(Color color)			{ m_color = color; }
+	void setStandardTime(float val)		{ m_standardTime = val; }
+	void setSize(float f)				{ m_size = f; }
+	void setTexture(Texture* pTexture)	{ m_pTexture = pTexture; }
 
-	void addHp(int val)				{ m_hp += val; }
-	void addPos(Vector2D pos)		{ m_pos.x += pos.x; m_pos.y += pos.y; }
-	void addSpd(float val)			{ m_spd += val; }
+	void addHp(int val)					{ m_hp += val; }
+	void addPos(Vector2D pos)			{ m_pos.x += pos.x; m_pos.y += pos.y; }
+	void addSpd(float val)				{ m_spd += val; }
 
 
-	Vector2D getPos() const			{ return m_pos; }
-	int getHp()	const				{ return m_hp; }
-	float getSpd() const			{ return m_spd; }
-	float getSize()	const			{ return m_size; }
-	Color getColor() const			{ return m_color; }
-	float getStandardTime()			{ return m_standardTime; }
-	float getInterval()				{ return m_interval; }
+	Vector2D getPos() const				{ return m_pos; }
+	int getHp()	const					{ return m_hp; }
+	float getSpd() const				{ return m_spd; }
+	float getSize()	const				{ return m_size; }
+	Color getColor() const				{ return m_color; }
+	float getStandardTime()				{ return m_standardTime; }
+	float getInterval()					{ return m_interval; }
 };
 
 class Player : public Object
@@ -179,6 +179,7 @@ public:
 	~Item();
 
 	virtual void render() const;
+
 	int getState() { return m_state; }
 	void setState(int i) { m_state = i; }
 };

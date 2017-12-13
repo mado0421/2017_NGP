@@ -129,7 +129,6 @@ GLvoid Framework::specialKeyUp(int key, int x, int y)
 
 bool Framework::changeScene(int idx, void* data)
 {
-	int playerNumber;
 	switch (idx)
 	{
 	case SceneType::Title:
