@@ -168,6 +168,12 @@ void Bullet::render() const
 		m_pos.x - BULLETSIZE*4,
 		m_pos.x + BULLETSIZE*4,
 		tex::etc, 16, 16, 9+m_team*0.2, 0);
+	/*m_pTexture->render(
+		WWIDTH*0.9,
+		WWIDTH*0.9,
+		WWIDTH*0.9,
+		WWIDTH*0.9,
+		tex::etc, 16, 16, 9 + m_team*0.2, 0);*/
 	//m_pTexture->render(
 	//	m_pos.y - BULLETIMGSIZE,
 	//	m_pos.y + BULLETIMGSIZE,
@@ -197,12 +203,15 @@ Item::~Item()
 
 void Item::render() const
 {
+	glPushMatrix();
 	m_pTexture->render(
 		m_pos.y - BULLETSIZE * 4,
 		m_pos.y + BULLETSIZE * 4,
 		m_pos.x - BULLETSIZE * 4,
 		m_pos.x + BULLETSIZE * 4,
 		tex::etc, 16, 16, 8, 0);
+	glPopMatrix();
+
 }
 
 Tile::Tile()
