@@ -35,7 +35,7 @@ using namespace std;
 #define NOTEXIST	0
 
 #define ITEMSIZE 7.5f
-#define ITEMCOOLTIME	10.0f
+#define ITEMCOOLTIME	5.0f
 #define TILESIZE	16
 #define TILEMAXCNT	100
 
@@ -63,7 +63,6 @@ inline void clamp(val& c, val min, val max)
 	if (c > max)c = max;
 	if (c < min)c = min;
 }
-
 
 enum msg {
 	TEAMNO = 0,
@@ -147,7 +146,7 @@ struct InfoTeam {
 struct BuffInfo
 {
 	int roomIndex, PlayerID;
-	float duration;
+	double duration;
 	chrono::system_clock::time_point occurTime;
 	BuffInfo(){}
 	BuffInfo(int ri, int pid, float d) :
@@ -158,33 +157,28 @@ struct BuffInfo
 	BuffInfo(int ri,int pid,float d, 
 		chrono::system_clock::time_point t):
 		roomIndex(ri),PlayerID(pid),duration(d),occurTime(t) {}
-	inline bool endcheck(chrono::system_clock::time_point other)
+	bool endcheck(chrono::system_clock::time_point& other)
 	{
-		if (chrono::duration_cast<chrono::milliseconds>
-			(other - occurTime).count()*0.001f >= duration)
+		double elapsed = chrono::duration_cast<chrono::milliseconds>
+			(other - occurTime).count()*0.001f;
+		if (elapsed >= duration)
 			return true;
 		return false;
 	}
 };
 
-bool inline isItemCooltime(chrono::system_clock::time_point time)
-{
-	if (chrono::duration_cast<chrono::milliseconds>
-		(chrono::system_clock::now() - time).count()*0.001f >= ITEMCOOLTIME)
-		return true;
-	return false;
-}
+bool isItemCooltime(chrono::system_clock::time_point& time);
 
 #define TeamList(RoomIndex,PlayerIndex) room[RoomIndex].m_teamList[PlayerIndex]
 
-bool inline IsZero(float a) {
+inline bool IsZero(float a) {
 	if (abs(a) < FLT_EPSILON)
 		return true;
 	else 
 		return false;
 }
 
-bool inline rectCollideCheck(Vector2D a, float aSize,
+inline bool rectCollideCheck(Vector2D a, float aSize,
 	Vector2D b, float bSize)
 {
 	if (a.x - aSize > b.x + bSize)return false;
@@ -208,8 +202,6 @@ struct Tile
 	int m_size;
 	Tile() {}
 	Tile(Vector2D v, int t):m_pos(v),m_type(t) {}
-
-	//int getType() const { return m_type; }
 };
 
 bool loadMapFile(char *fileDirectory, vector<Tile>& list);
@@ -239,6 +231,7 @@ struct Room
 	// Room에 접속해있는 현재 인원
 	int m_numOfPlayerInRoom;
 
+	std::queue<BuffInfo> m_buffQueue;
 
 	// 준혁 - 시간체크용 tmp;
 	double m_ElapsedTime = 0;

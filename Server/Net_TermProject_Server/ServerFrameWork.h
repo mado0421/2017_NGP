@@ -7,21 +7,17 @@ class ServerFrameWork
 	enum { data = 0, end_data = 1 };
 
 	static Room room[MAXROOMCOUNT];
-	static std::vector<Tile> m_map;
-	static int itemIndex[MAX_ITEM];
+	static Vector2D itemPos[MAX_ITEM];
 
 	static HANDLE hCommunicated[MAXROOMCOUNT][MAX_PLAYER];
 	static HANDLE hSendPacket[MAXROOMCOUNT][MAX_PLAYER];
 
 	static HANDLE hGameThread[MAXROOMCOUNT];
 	static HANDLE hThreadScheduler;
-	static bool bOrder[MAXROOMCOUNT];
 
 	static std::vector<int> m_order;
 	static std::queue<int> m_delQueue;
 	static std::queue<int> m_insQueue;
-
-	static std::queue<BuffInfo> m_buffQueue;
 
 public:
 	ServerFrameWork();
@@ -49,9 +45,11 @@ public:
 	static chrono::system_clock::time_point t_order_start;
 	static chrono::system_clock::time_point t_order_end;
 
+	static void InitFrameWork();
+
 	static int ReceivePacketFromClient(int roomNum,int PlayerID);
 	static void SendPacketToClient(S2CPacket* packet,int roomNum);
-	static int Calculate(int roomNum);
+	static int Calculate(int roomNum, chrono::system_clock::time_point t);
 
 	static inline void FixFrame(int roomNum);
 

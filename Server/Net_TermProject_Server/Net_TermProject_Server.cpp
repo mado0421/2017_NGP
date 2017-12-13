@@ -65,6 +65,8 @@ int main()
 	int addrlen;
 
 	int roomIndex;
+	g_server.InitFrameWork();
+
 	while (true) 
 	{
 		while (true) 

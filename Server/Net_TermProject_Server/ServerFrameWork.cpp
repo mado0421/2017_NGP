@@ -3,8 +3,10 @@
 //정의
 Room ServerFrameWork::room[MAXROOMCOUNT];
 
-std::vector<Tile> ServerFrameWork::m_map;
-int ServerFrameWork::itemIndex[MAX_ITEM];
+//std::vector<Tile> ServerFrameWork::m_map;
+//int ServerFrameWork::itemIndex[MAX_ITEM];
+
+Vector2D ServerFrameWork::itemPos[MAX_ITEM];
 
 HANDLE ServerFrameWork::hCommunicated[MAXROOMCOUNT][MAX_PLAYER];
 HANDLE ServerFrameWork::hSendPacket[MAXROOMCOUNT][MAX_PLAYER];
@@ -15,32 +17,17 @@ HANDLE ServerFrameWork::hThreadScheduler;
 std::vector<int> ServerFrameWork::m_order;
 std::queue<int> ServerFrameWork::m_delQueue;
 std::queue<int> ServerFrameWork::m_insQueue;
-std::queue<BuffInfo> ServerFrameWork::m_buffQueue;
+//std::queue<BuffInfo> ServerFrameWork::m_buffQueue;
 
 chrono::system_clock::time_point ServerFrameWork::t_order_start;
 chrono::system_clock::time_point ServerFrameWork::t_order_end;
-bool ServerFrameWork::bOrder[MAXROOMCOUNT];
 
 ServerFrameWork::ServerFrameWork()
 {
 	ZeroMemory(room, sizeof(Room)*MAXROOMCOUNT);
 	m_order.reserve(MAXROOMCOUNT);
-	m_map.reserve(TILEMAXCNT);
 	hThreadScheduler = CreateThread(NULL, 0, ThreadScheduler, 0, 0, NULL);
-	int ret = false;
-	char path[] = "assets\\maps\\map_1.map";
-	while (!ret)
-	{
-		ret = loadMapFile(path, m_map);
-		if (ret)
-			printf("loadMapFile success\n");
-		else {
-			printf("loadMapFile failed\n");
-		}
-	}
-
-	for (int j = 0, i = 0; j < m_map.size() && i < MAX_ITEM; ++j)
-		if (m_map[j].m_type == ISpawn)itemIndex[i++] = j;
+	
 	printf("ServerFrameWork() complete\n");
 }
 
@@ -59,6 +46,33 @@ ServerFrameWork::~ServerFrameWork()
 
 	TerminateThread(hThreadScheduler, 0);
 	CloseHandle(hThreadScheduler);
+}
+
+void ServerFrameWork::InitFrameWork()
+{
+	int ret = false;
+	std::vector<Tile> m_map;
+	m_map.reserve(TILEMAXCNT);
+	char path[] = "assets\\maps\\map_1.map";
+	while (!ret)
+	{
+		ret = loadMapFile(path, m_map);
+		if (ret)
+			printf("loadMapFile success\n");
+		else {
+			printf("loadMapFile failed\n");
+		}
+	}
+	for (int j = 0, i = 0; j < m_map.size() && i < MAX_ITEM; ++j)
+	{
+		if (m_map[j].m_type == ISpawn)
+		{
+			itemPos[i] = m_map[j].m_pos;
+			printf("itemPos[%d] %f %f\n", i, itemPos[i].x, itemPos[i].y);
+			++i;
+		}
+	}
+	printf("InitFramework() complete\n");
 }
 
 void ServerFrameWork::SetSocket(int RoomNumber, int PlayerId,SOCKET socket)
@@ -98,7 +112,6 @@ void ServerFrameWork::GameStart(int roomIndex)
 	for (int i = 0; i < MAX_PLAYER; ++i){
 		SetEvent(hSendPacket[roomIndex][i]);
 	}
-	bOrder[roomIndex] = true;
 	m_insQueue.push(roomIndex);
 	room[roomIndex].timeInit();
 	printf("room: %d GameStart\n", roomIndex);
@@ -112,13 +125,13 @@ void ServerFrameWork::GameEnd(int roomIndex)
 
 	::ZeroMemory(&packet, sizeof(S2CPacket));
 	packet.SetPacket(roomIndex, room[roomIndex]);
+	packet.Message = end_data;
 
 	for (int i = 0; i < MAX_PLAYER; ++i) {
 		client_sock[i] = TeamList(roomIndex, i).m_socket;
 	}
 
 	for (int i = 0; i < MAX_PLAYER; ++i){
-		packet.Message = end_data;
 		send(client_sock[i], (char*)&packet, sizeof(S2CPacket), 0);
 	}
 	room[roomIndex].m_roomState = closing;
@@ -141,14 +154,14 @@ void ServerFrameWork::CloseRoom(int roomIndex)
 	CloseHandle(hGameThread[roomIndex]);
 	
 	m_delQueue.push(roomIndex);
-	room[roomIndex].m_roomState = Lobby;
+	//room[roomIndex].m_roomState = Lobby;
 }
 
 DWORD ServerFrameWork::ThreadScheduler(LPVOID arg)
 {
 	int index;
 	DWORD retval;
-	int ins,del;
+	int ins, del;
 	double elapsedTime;
 	while (true) {
 		t_order_start = chrono::system_clock::now();
@@ -167,35 +180,18 @@ DWORD ServerFrameWork::ThreadScheduler(LPVOID arg)
 				if (room[p].m_roomState == Play)
 				{
 					//printf("SetEvent%d\n", p);
-					if (bOrder[p]) 
-					{
-						SetEvent(hGameThread[p]);
-						bOrder[p] = false;
-					}
+					SetEvent(hGameThread[p]);
 				}
 			}
 			while (!m_delQueue.empty())
 			{
-				del=m_delQueue.front();
+				del = m_delQueue.front();
 				m_delQueue.pop();
-				m_order.erase(find(m_order.begin(), m_order.end(),del));
+				m_order.erase(find(m_order.begin(), m_order.end(), del));
+				room[del].m_roomState = Lobby;
 			}
 		}
 		
-		//	BuffPop
-		if (!m_buffQueue.empty())
-		{
-			BuffInfo* front;
-			front = &m_buffQueue.front();
-			while (front->endcheck(t_order_start))
-			{
-				TeamList(front->roomIndex, front->PlayerID).m_player.m_state = normal;
-				m_buffQueue.pop();
-				if (!m_buffQueue.empty())
-					front = &m_buffQueue.front();
-			}
-		}
-
 		//	Freq
 		while (elapsedTime < ORDERFREQ)
 		{
@@ -214,19 +210,18 @@ DWORD ServerFrameWork::GameThread(LPVOID arg)
 	DWORD retEvent;
 	int retCalc;
 	chrono::system_clock::time_point timeGen = chrono::system_clock::now();
-
+	chrono::system_clock::time_point threadTime;
 	while (true)
 	{
-
 		//	wait queue
 		WaitForSingleObject(hGameThread[roomIndex], INFINITE);
 		
 		//	wait Communication
 		retEvent = WaitForMultipleObjects(MAX_PLAYER, hCommunicated[roomIndex], TRUE, INFINITE);
 
-
 		// Calc
-		retCalc = Calculate(roomIndex);
+		threadTime = chrono::system_clock::now();
+		retCalc = Calculate(roomIndex, threadTime);
 		if (retCalc == end_of_game){
 			printf("room:%d end_of_game\n",roomIndex);
 			break;
@@ -235,16 +230,19 @@ DWORD ServerFrameWork::GameThread(LPVOID arg)
 		// ItemGen
 		if (isItemCooltime(timeGen))
 		{
-			if (!m_map.empty()) {
-				for (int i = 0; i < MAX_ITEM; ++i)
+			//printf("ItemGen\n");
+			for (int i = 0; i < MAX_ITEM; ++i)
+			{
+				if (room[roomIndex].m_itemList[i].m_type == notExist)
 				{
-					if (room[roomIndex].m_itemList[i].m_type == notExist)
-					{
-						room[roomIndex].m_itemList[i].m_type = rand() % 2 + 1;
-						room[roomIndex].m_itemList[i].m_pos = m_map[i].m_pos;
-					}
+					room[roomIndex].m_itemList[i].m_type = rand() % 2 + 1;
+					room[roomIndex].m_itemList[i].m_pos = itemPos[i];
+					/*room[roomIndex].m_itemList[i].m_type = 2;
+					printf("room:%d , type:%d (%f, %f)\n", roomIndex, room[roomIndex].m_itemList[i].m_type,
+						room[roomIndex].m_itemList[i].m_pos.x, room[roomIndex].m_itemList[i].m_pos.y);*/
 				}
 			}
+			timeGen = chrono::system_clock::now();
 		}
 
 		// Set packet
@@ -258,7 +256,6 @@ DWORD ServerFrameWork::GameThread(LPVOID arg)
 		//	For CommunicationPlayer Thread, notice ready to Communicate
 		for (int i = 0; i < MAX_PLAYER; ++i)
 			SetEvent(hSendPacket[roomIndex][i]);
-		bOrder[roomIndex] = true;
 	}
 	GameEnd(roomIndex);
 
@@ -353,12 +350,29 @@ void ServerFrameWork::SendPacketToClient(S2CPacket * packet, int roomNum)
 	}
 }
 
-int ServerFrameWork::Calculate(int roomNum)
+int ServerFrameWork::Calculate(int roomNum, chrono::system_clock::time_point time)
 {
 	InfoPlayer* player;
 	InfoBullet* bullet;
 	InfoItem* item;
 	int dead = 0;
+
+	//	BuffPop
+	if (!room[roomNum].m_buffQueue.empty())
+	{
+		BuffInfo* front;
+		front = &room[roomNum].m_buffQueue.front();
+		while (front->endcheck(time))
+		{
+			TeamList(front->roomIndex, front->PlayerID).m_player.m_state = normal;
+			//printf("room:%d pid:%d buff해제\n", front->roomIndex, front->PlayerID);
+			room[roomNum].m_buffQueue.pop();
+			if (!room[roomNum].m_buffQueue.empty())
+				front = &room[roomNum].m_buffQueue.front();
+			else 
+				break;
+		}
+	}
 
 	for (int i = 0; i < MAX_PLAYER; ++i)
 	{
@@ -387,13 +401,10 @@ int ServerFrameWork::Calculate(int roomNum)
 				bullet = &TeamList(roomNum, j).m_bullets[k];
 				if (!IsExistBullet(bullet->m_damage))continue;
 
+				//	RectCollide
 				if (!rectCollideCheck(player->m_pos, PLAYERSIZE, bullet->m_pos, BULLETSIZE))
 					continue;
-				/*if (player->m_pos.x - PLAYERSIZE > bullet->m_pos.x + BULLETSIZE)continue;
-				if (player->m_pos.x + PLAYERSIZE < bullet->m_pos.x - BULLETSIZE)continue;
-				if (player->m_pos.y - PLAYERSIZE > bullet->m_pos.y + BULLETSIZE)continue;
-				if (player->m_pos.y + PLAYERSIZE < bullet->m_pos.y - BULLETSIZE)continue;*/
-
+	
 				//	Collide Test ok
 				player->m_hp -= bullet->m_damage;
 				if (IsPlayerDead(player->m_hp))dead++;
@@ -414,18 +425,19 @@ int ServerFrameWork::Calculate(int roomNum)
 						player->m_hp += 1;
 						clamp<int>(player->m_hp, 0, PLAYERMAXHP);
 						item->m_type = notExist;
+						printf("room:%d player:%i get medikit\n", roomNum, i);
 						break;
 					case reinforce:
 						player->m_state = burst;
 						item->m_type = notExist;
-						m_buffQueue.push(BuffInfo(roomNum, i, BUFFDURATION));
+						room[roomNum].m_buffQueue.push(BuffInfo(roomNum, i, BUFFDURATION));
+						printf("room:%d player:%i get reinforce\n", roomNum, i);
 						break;
 					default:
 						break;
 					}
 				}
 			}
-
 		}
 	}
 

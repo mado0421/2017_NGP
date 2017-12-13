@@ -80,3 +80,13 @@ bool loadMapFile(char *fileDirectory, vector<Tile>& list)
 	mapFile.close();
 	return true;
 }
+
+
+bool isItemCooltime(chrono::system_clock::time_point& time)
+{
+	double elapsed = chrono::duration_cast<chrono::milliseconds>
+		(chrono::system_clock::now() - time).count()*0.001f;
+	if (elapsed >= ITEMCOOLTIME)
+		return true;
+	return false;
+}
