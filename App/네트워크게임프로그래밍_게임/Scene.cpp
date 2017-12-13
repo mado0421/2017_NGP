@@ -795,6 +795,8 @@ DWORD WINAPI communicateThreadFunc(LPVOID arg)
 		case STARTGAME:
 			break;
 		case ENDGAME:
+			printf("End~~~~~~~~~~~~~~\n");
+			printf("s2cpacket's size=%d\n", sizeof(s2cpacket));
 			ResetEvent(hCommunicateEvent);
 			SetEvent(hUpdateEvent);
 			printf("Communicate:off, update:on\n");
