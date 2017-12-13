@@ -65,6 +65,7 @@ public:
 	void setColor(Color color)		{ m_color = color; }
 	void setStandardTime(float val) { m_standardTime = val; }
 	void setSize(float f)			{ m_size = f; }
+	void setTexture(Texture* pTexture) { m_pTexture = pTexture; }
 
 	void addHp(int val)				{ m_hp += val; }
 	void addPos(Vector2D pos)		{ m_pos.x += pos.x; m_pos.y += pos.y; }
@@ -155,7 +156,6 @@ public:
 
 	virtual void move(float val);
 
-	void setTexture(Texture* pTexture) { m_pTexture = pTexture; }
 	void setDirection(Vector2D dir) { m_dir = dir; }
 
 	int getTeam() const { return m_team; }

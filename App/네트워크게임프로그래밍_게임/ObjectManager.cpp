@@ -67,6 +67,12 @@ void ObjectManager::initialize(int team)
 		m_OtherBulletList[i].setHp(1);
 		m_OtherBulletList[i].setTexture(m_pTexture);
 	}
+
+	for (int i = 0; i < MAX_ITEM; ++i)
+	{
+		m_itemList[i].setTexture(m_pTexture);
+	}
+
 }
 
 void ObjectManager::setTexture(Texture * pTexture)

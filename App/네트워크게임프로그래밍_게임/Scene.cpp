@@ -652,9 +652,7 @@ void PlayScene::update(float elapsedTime)
 
 void PlayScene::render()
 {
-	glDisable(GL_BLEND);
 	m_objMng->render();
-	glEnable(GL_BLEND);
 	WaitForSingleObject(hUpdateEvent, 1000);
 }
 

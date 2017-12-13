@@ -1,5 +1,4 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets(76,5): warning : 'c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\x64\debug\vc141.idb' 파일은 다른 프로세스에서 사용 중이므로 프로세스에서 액세스할 수 없습니다.
-  stdafx.cpp
+﻿  stdafx.cpp
   네트워크게임프로그래밍_게임.cpp
 c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.h(195): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Texture.cpp
@@ -24,11 +23,11 @@ c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_�
   c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(136): note: 'strcpy' 선언을 참조하십시오.
 c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(580): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   c:\program files (x86)\windows kits\10\include\10.0.15063.0\um\winsock2.h(1830): note: 'inet_addr' 선언을 참조하십시오.
-c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(668): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(666): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   ObjectManager.cpp
 c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.h(195): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\objectmanager.cpp(42): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\objectmanager.cpp(124): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\objectmanager.cpp(130): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Object.cpp
 c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.h(195): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.cpp(95): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
@@ -42,7 +41,7 @@ c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_�
 c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\framework.cpp(132): warning C4101: 'playerNumber' :참조되지 않은 지역 변수입니다.
   코드를 생성하고 있습니다...
 c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.cpp(118): warning C4715: 'Player::getMoveDirection': 모든 제어 경로에서 값을 반환하지는 않습니다.
-c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\objectmanager.cpp(139): warning C4715: 'ObjectManager::getPlayerDirection': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\objectmanager.cpp(145): warning C4715: 'ObjectManager::getPlayerDirection': 모든 제어 경로에서 값을 반환하지는 않습니다.
 c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(121): warning C4715: 'buttonTexHeight': 모든 제어 경로에서 값을 반환하지는 않습니다.
 c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(100): warning C4715: 'buttonTexWidth': 모든 제어 경로에서 값을 반환하지는 않습니다.
   네트워크게임프로그래밍_게임.vcxproj -> C:\Users\sju42\Documents\GitHub\2017_NGP\App\x64\Debug\네트워크게임프로그래밍_게임.exe
