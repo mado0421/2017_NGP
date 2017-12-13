@@ -230,7 +230,7 @@ struct Room
 	// Room에 접속해있는 현재 인원
 	int m_numOfPlayerInRoom;
 
-	//std::queue<BuffInfo> m_buffQueue;
+	std::queue<BuffInfo> m_buffQueue;
 
 	// 준혁 - 시간체크용 tmp;
 	double m_ElapsedTime = 0;

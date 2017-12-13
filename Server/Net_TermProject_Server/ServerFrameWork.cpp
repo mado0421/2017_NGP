@@ -17,7 +17,6 @@ HANDLE ServerFrameWork::hThreadScheduler;
 std::vector<int> ServerFrameWork::m_order;
 std::queue<int> ServerFrameWork::m_delQueue;
 std::queue<int> ServerFrameWork::m_insQueue;
-//std::queue<BuffInfo> ServerFrameWork::m_buffQueue;
 
 chrono::system_clock::time_point ServerFrameWork::t_order_start;
 chrono::system_clock::time_point ServerFrameWork::t_order_end;
@@ -29,6 +28,7 @@ ServerFrameWork::ServerFrameWork()
 	hThreadScheduler = CreateThread(NULL, 0, ThreadScheduler, 0, 0, NULL);
 
 	printf("ServerFrameWork() complete\n");
+	srand(time(NULL));
 }
 
 ServerFrameWork::~ServerFrameWork()
@@ -68,7 +68,7 @@ void ServerFrameWork::InitFrameWork()
 		if (m_map[j].m_type == ISpawn)
 		{
 			itemPos[i] = m_map[j].m_pos;
-			printf("itemPos[%d] %f %f\n", i, itemPos[i].x, itemPos[i].y);
+			//printf("itemPos[%d] %f %f\n", i, itemPos[i].x, itemPos[i].y);
 			++i;
 		}
 	}
@@ -239,9 +239,9 @@ DWORD ServerFrameWork::GameThread(LPVOID arg)
 					/*room[roomIndex].m_itemList[i].m_type = 2;
 					printf("room:%d , type:%d (%f, %f)\n", roomIndex, room[roomIndex].m_itemList[i].m_type,
 						room[roomIndex].m_itemList[i].m_pos.x, room[roomIndex].m_itemList[i].m_pos.y);*/
+					timeGen = chrono::system_clock::now();
 				}
 			}
-			timeGen = chrono::system_clock::now();
 		}
 
 		// Set packet
@@ -358,23 +358,24 @@ int ServerFrameWork::Calculate(int roomNum, chrono::system_clock::time_point tim
 	InfoItem* item;
 	int dead = 0;
 
-	////	BuffPop
-	//if (!room[roomNum].m_buffQueue.empty())
-	//{
-	//	BuffInfo* front;
-	//	front = &room[roomNum].m_buffQueue.front();
-	//	while (front->endcheck(time))
-	//	{
-	//		TeamList(front->roomIndex, front->PlayerID).m_player.m_state = normal;
-	//		//printf("room:%d pid:%d buff해제\n", front->roomIndex, front->PlayerID);
-	//		room[roomNum].m_buffQueue.pop();
-	//		if (!room[roomNum].m_buffQueue.empty())
-	//			front = &room[roomNum].m_buffQueue.front();
-	//		else 
-	//			break;
-	//	}
-	//}
+	//	BuffPop
+	if (!room[roomNum].m_buffQueue.empty())
+	{
+		BuffInfo* front;
+		front = &room[roomNum].m_buffQueue.front();
+		while (front->endcheck(time))
+		{
+			TeamList(front->roomIndex, front->PlayerID).m_player.m_state = normal;
+			//printf("room:%d pid:%d buff해제\n", front->roomIndex, front->PlayerID);
+			room[roomNum].m_buffQueue.pop();
+			if (!room[roomNum].m_buffQueue.empty())
+				front = &room[roomNum].m_buffQueue.front();
+			else 
+				break;
+		}
+	}
 
+	//	CollideCheck
 	for (int i = 0; i < MAX_PLAYER; ++i)
 	{
 		player = &TeamList(roomNum, i).m_player;
@@ -426,13 +427,13 @@ int ServerFrameWork::Calculate(int roomNum, chrono::system_clock::time_point tim
 						player->m_hp += 1;
 						clamp<int>(player->m_hp, 0, PLAYERMAXHP);
 						item->m_type = notExist;
-						printf("room:%d player:%i get medikit\n", roomNum, i);
+						//printf("room:%d player:%i get medikit\n", roomNum, i);
 						break;
 					case reinforce:
 						player->m_state = burst;
 						item->m_type = notExist;
-						//room[roomNum].m_buffQueue.push(BuffInfo(roomNum, i, BUFFDURATION));
-						printf("room:%d player:%i get reinforce\n", roomNum, i);
+						room[roomNum].m_buffQueue.push(BuffInfo(roomNum, i, BUFFDURATION));
+						//printf("room:%d player:%i get reinforce\n", roomNum, i);
 						break;
 					default:
 						break;
@@ -442,6 +443,7 @@ int ServerFrameWork::Calculate(int roomNum, chrono::system_clock::time_point tim
 		}
 	}
 
+	//EOG
 	if (dead >= MAX_PLAYER - 1)
 		return end_of_game;
 	return ok;

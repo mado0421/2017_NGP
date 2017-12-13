@@ -1,17 +1,19 @@
 ﻿  stdafx.cpp
-c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\stdafx.h(351): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 2의 형식이 'double'입니다.
-c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\stdafx.h(351): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'double'입니다.
-c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\stdafx.cpp(70): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\stdafx.h(351): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 2의 형식이 'double'입니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\stdafx.h(351): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'double'입니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\stdafx.cpp(70): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   ServerFrameWork.cpp
-c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(105): warning C4312: '형식 캐스팅': 'int'에서 더 큰 'LPVOID'(으)로의 변환입니다.
-c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(138): warning C4305: '=': ''에서 'bool'(으)로 잘립니다.
-c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(161): warning C4101: 'index' :참조되지 않은 지역 변수입니다.
-c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(162): warning C4101: 'retval' :참조되지 않은 지역 변수입니다.
-c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(208): warning C4311: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 포인터가 잘립니다.
-c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\serverframework.cpp(208): warning C4302: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 잘립니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\serverframework.cpp(31): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\serverframework.cpp(105): warning C4312: '형식 캐스팅': 'int'에서 더 큰 'LPVOID'(으)로의 변환입니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\serverframework.cpp(138): warning C4305: '=': ''에서 'bool'(으)로 잘립니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\serverframework.cpp(161): warning C4101: 'index' :참조되지 않은 지역 변수입니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\serverframework.cpp(162): warning C4101: 'retval' :참조되지 않은 지역 변수입니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\serverframework.cpp(208): warning C4311: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 포인터가 잘립니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\serverframework.cpp(208): warning C4302: '형식 캐스팅': 'LPVOID'에서 'int'(으)로 잘립니다.
   Net_TermProject_Server.cpp
-c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\net_termproject_server.cpp(79): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\net_termproject_server.cpp(79): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   c:\program files (x86)\windows kits\10\include\10.0.14393.0\um\winsock2.h(1846): note: 'inet_ntoa' 선언을 참조하십시오.
-c:\users\sju42\documents\github\2017_ngp\server\net_termproject_server\net_termproject_server.cpp(64): warning C4101: 'hThread' :참조되지 않은 지역 변수입니다.
+d:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_ngp\server\net_termproject_server\net_termproject_server.cpp(64): warning C4101: 'hThread' :참조되지 않은 지역 변수입니다.
   코드를 생성하고 있습니다...
-  Net_TermProject_Server.vcxproj -> C:\Users\sju42\Documents\GitHub\2017_NGP\Server\Net_TermProject_Server\x64\Debug\Net_TermProject_Server.exe
+  Net_TermProject_Server.vcxproj -> D:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_NGP\Server\Net_TermProject_Server\x64\Debug\Net_TermProject_Server.exe
+  Net_TermProject_Server.vcxproj -> D:\공부\3학년 2학기\네트워크 게임 프로그래밍\텀플\2019\2017_NGP\Server\Net_TermProject_Server\x64\Debug\Net_TermProject_Server.pdb (Partial PDB)
