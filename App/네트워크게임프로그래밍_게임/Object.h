@@ -168,6 +168,7 @@ public:
 class Item : public Object
 {
 private:
+	int m_state;
 public:
 	Item();
 	Item(Texture *pTexture, int hp, Vector2D pos, float spd, float size)
@@ -178,7 +179,8 @@ public:
 	~Item();
 
 	virtual void render() const;
-
+	int getState() { return m_state; }
+	void setState(int i) { m_state = i; }
 };
 
 class Tile : public Object

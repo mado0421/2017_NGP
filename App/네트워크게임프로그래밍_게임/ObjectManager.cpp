@@ -54,12 +54,17 @@ void ObjectManager::initialize(int team)
 			m_playerList.emplace_back(m_pTexture ,3, tp->getPos(), PLAYERSPD, PLAYERSIZE, i++);
 		}
 	}
-
+	for (int i = 0; i < MAX_PLAYER; ++i)
+	{
+		m_playerList[i].setState(1);
+	}
+	
 	for (int i = 0; i < MAX_BULLET; ++i)
 	{
 		m_myBulletList[i].setPos(Vector2D(INVALID, 0));
 		m_myBulletList[i].setDirection(Vector2D(0, 0));
 		m_myBulletList[i].setTexture(m_pTexture);
+		m_myBulletList[i].setDamage(0);
 	}
 	for (int i = 0; i < MAX_BULLET * 3; ++i)
 	{
@@ -216,12 +221,15 @@ void ObjectManager::render()
 {
 	for (auto p = m_playerList.cbegin(); p != m_playerList.cend(); ++p)if(p->getHp()>0) p->render();
 	for (int i = 0; i<MAX_BULLET; ++i)
-		m_myBulletList[i].render();
+		if(m_myBulletList[i].getDamage()>0)
+			m_myBulletList[i].render();
 	for (int i = 0; i < MAX_BULLET * 3; ++i)
-		m_OtherBulletList[i].render();
+		if (m_OtherBulletList[i].getDamage()>0)
+			m_OtherBulletList[i].render();
 //	for (auto p = m_itemList.cbegin(); p != m_itemList.cend(); ++p) p->render();
 	for (int i = 0; i < MAX_ITEM; ++i)
-		m_itemList[i].render();
+		if(m_itemList[i].getState()>0)
+			m_itemList[i].render();
 	for (auto p = m_tileList.cbegin(); p != m_tileList.cend(); ++p) p->render();
 
 
@@ -252,7 +260,7 @@ void ObjectManager::render()
 	/*remain HP*/
 	m_pTexture->render(700, 800, 0, 200, tex::etc, 8, 16, 4, 12);
 	if (m_playerList[m_myTeamNo].getHp())
-		m_pTexture->render(700, 800, 200, 400, tex::etc, 8, 16, 5 + (3 - m_playerList[0].getHp()), 12);
+		m_pTexture->render(700, 800, 200, 400, tex::etc, 8, 16, 5 + (3 - m_playerList[m_myTeamNo].getHp()), 12);
 
 
 }
@@ -283,6 +291,7 @@ void ObjectManager::updatePlayerInfo()
 	for (int i = 0; i < MAX_ITEM; ++i)
 	{
 		m_itemList[i].setPos(s2cpacket.iItem[i].m_pos);
+		m_itemList[i].setState(s2cpacket.iItem[i].m_type);
 	}
 	c2spacket.player.m_pos = m_playerList[m_myTeamNo].getPos();
 	c2spacket.player.m_hp = m_playerList[m_myTeamNo].getHp();

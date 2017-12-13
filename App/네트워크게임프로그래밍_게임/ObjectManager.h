@@ -11,10 +11,10 @@ class ObjectManager
 {
 private:
 	std::vector<Player> m_playerList;
-	//std::vector<Bullet> m_bulletList;
+	
 	Bullet m_myBulletList[MAX_BULLET];
 	Bullet m_OtherBulletList[MAX_BULLET * 3];
-	//std::vector<Item>	m_itemList;
+	
 	Item m_itemList[MAX_ITEM];
 	std::vector<Tile>	m_tileList;
 	int m_myTeamNo;
