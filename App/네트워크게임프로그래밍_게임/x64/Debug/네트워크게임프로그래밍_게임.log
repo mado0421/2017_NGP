@@ -1,4 +1,4 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets(76,5): warning : 'c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\x64\debug\object.obj' 파일은 다른 프로세스에서 사용 중이므로 프로세스에서 액세스할 수 없습니다.
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets(76,5): warning : 'c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\x64\debug\vc141.idb' 파일은 다른 프로세스에서 사용 중이므로 프로세스에서 액세스할 수 없습니다.
   stdafx.cpp
   네트워크게임프로그래밍_게임.cpp
 c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.h(195): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
@@ -43,6 +43,6 @@ c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_�
   코드를 생성하고 있습니다...
 c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\object.cpp(118): warning C4715: 'Player::getMoveDirection': 모든 제어 경로에서 값을 반환하지는 않습니다.
 c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\objectmanager.cpp(139): warning C4715: 'ObjectManager::getPlayerDirection': 모든 제어 경로에서 값을 반환하지는 않습니다.
-c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(100): warning C4715: 'buttonTexWidth': 모든 제어 경로에서 값을 반환하지는 않습니다.
 c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(121): warning C4715: 'buttonTexHeight': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\sju42\documents\github\2017_ngp\app\네트워크게임프로그래밍_게임\scene.cpp(100): warning C4715: 'buttonTexWidth': 모든 제어 경로에서 값을 반환하지는 않습니다.
   네트워크게임프로그래밍_게임.vcxproj -> C:\Users\sju42\Documents\GitHub\2017_NGP\App\x64\Debug\네트워크게임프로그래밍_게임.exe
